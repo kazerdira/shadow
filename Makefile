@@ -26,7 +26,7 @@ lint:
 	$(GOLANGCI_LINT_CMD) run
 
 test:
-	$(GO_CMD) test -tags testtools -v -race -coverprofile=coverage.out -coverpkg=$$(go list ./... | grep -v -E '(^github.com/divkix/Alita_Robot$$|scripts/)' | paste -sd, -) -count=1 -timeout 10m ./...
+	$(GO_CMD) test -tags testtools -v -race -coverprofile=coverage.out -coverpkg=$$(go list ./... | grep -v -E '(^github.com/kazerdira/shadow$$|scripts/)' | paste -sd, -) -count=1 -timeout 10m ./...
 
 check-translations:
 	@echo "🔍 Checking for missing translations..."
@@ -109,7 +109,7 @@ generate-docs:
 
 check-docs:
 	@echo "🔍 Checking docs generation for drift..."
-	@TMP=$$(mktemp -d /tmp/alita-docs-check.XXXXXX); \
+	@TMP=$$(mktemp -d /tmp/shadow-docs-check.XXXXXX); \
 	ROOT=$$(pwd); \
 	cp -R docs/src/content/docs/. "$$TMP"/; \
 	echo "  Generating docs to temp directory..."; \

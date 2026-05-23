@@ -11,7 +11,7 @@ Easily change by using this module!
 
 Just type /lang and use inline keyboard to choose a language for yourself or your group.
 
-You can help us bring bot to more languages by helping on [Crowdin](https://crowdin.com/project/alita_robot)
+You can help us bring bot to more languages by helping on [Crowdin](https://crowdin.com/project/shadow)
 
 **How It Works**
 - **Private Chats:** Any user can change their personal language

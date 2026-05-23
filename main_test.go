@@ -16,8 +16,8 @@ import (
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 
-	"github.com/divkix/Alita_Robot/alita/config"
-	alitaerrors "github.com/divkix/Alita_Robot/alita/utils/errors"
+	"github.com/kazerdira/shadow/shadow/config"
+	shadowerrors "github.com/kazerdira/shadow/shadow/utils/errors"
 )
 
 type captureRoundTripper struct {
@@ -47,7 +47,7 @@ func (c *mainBotClient) RequestWithContext(_ context.Context, _ string, method s
 	c.calls = append(c.calls, mainBotCall{method: method, params: params})
 	switch method {
 	case "getMe":
-		return json.RawMessage(`{"id":999,"is_bot":true,"first_name":"Alita","username":"AlitaTestBot"}`), nil
+		return json.RawMessage(`{"id":999,"is_bot":true,"first_name":"shadow","username":"shadowTestBot"}`), nil
 	case "setMyCommands":
 		return json.RawMessage(`true`), nil
 	case "sendMessage":
@@ -162,7 +162,7 @@ func TestAPIServerRewriteTransportPreservesNonTelegramRequests(t *testing.T) {
 
 func TestMainVersionModeExitsWithConfiguredVersion(t *testing.T) {
 	cmd := helperMainCommand(t, "--version")
-	cmd.Env = append(cmd.Env, "ALITA_TEST_MAIN_VERSION=v9.9.9")
+	cmd.Env = append(cmd.Env, "shadow_TEST_MAIN_VERSION=v9.9.9")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -192,7 +192,7 @@ func TestMainHealthModeExitsByStatus(t *testing.T) {
 
 			port := serverPort(t, server.URL)
 			cmd := helperMainCommand(t, "--health")
-			cmd.Env = append(cmd.Env, "ALITA_TEST_MAIN_HTTP_PORT="+port)
+			cmd.Env = append(cmd.Env, "shadow_TEST_MAIN_HTTP_PORT="+port)
 
 			output, err := cmd.CombinedOutput()
 			if tt.wantErr {
@@ -229,7 +229,7 @@ func TestPostInitSetsCommandsAndStartupMessage(t *testing.T) {
 		User: gotgbot.User{
 			Id:       999,
 			IsBot:    true,
-			Username: "AlitaTestBot",
+			Username: "shadowTestBot",
 		},
 	}
 	dispatcher := ext.NewDispatcher(&ext.DispatcherOpts{MaxRoutines: -1})
@@ -261,8 +261,8 @@ func TestResolveBotUsernameReadsGetMeResponse(t *testing.T) {
 		User:      gotgbot.User{Id: 999, IsBot: true},
 	}
 
-	if got := resolveBotUsername(bot); got != "AlitaTestBot" {
-		t.Fatalf("resolveBotUsername() = %q, want AlitaTestBot", got)
+	if got := resolveBotUsername(bot); got != "shadowTestBot" {
+		t.Fatalf("resolveBotUsername() = %q, want shadowTestBot", got)
 	}
 }
 
@@ -281,7 +281,7 @@ func TestNewDispatcherHandlesExpectedAndWrappedErrors(t *testing.T) {
 		t.Fatalf("expected Telegram error action = %s, want noop", action)
 	}
 
-	action = dispatcher.Error(nil, ctx, alitaerrors.Wrap(assertErr{}, "wrapped failure"))
+	action = dispatcher.Error(nil, ctx, shadowerrors.Wrap(assertErr{}, "wrapped failure"))
 	if action != ext.DispatcherActionNoop {
 		t.Fatalf("wrapped error action = %s, want noop", action)
 	}
@@ -294,17 +294,17 @@ func (assertErr) Error() string {
 }
 
 func TestHelperMainProcess(t *testing.T) {
-	if os.Getenv("ALITA_TEST_MAIN_PROCESS") != "1" {
+	if os.Getenv("shadow_TEST_MAIN_PROCESS") != "1" {
 		return
 	}
 
-	if version := os.Getenv("ALITA_TEST_MAIN_VERSION"); version != "" {
+	if version := os.Getenv("shadow_TEST_MAIN_VERSION"); version != "" {
 		config.AppConfig.BotVersion = version
 	}
-	if port := os.Getenv("ALITA_TEST_MAIN_HTTP_PORT"); port != "" {
+	if port := os.Getenv("shadow_TEST_MAIN_HTTP_PORT"); port != "" {
 		parsed, err := strconv.Atoi(port)
 		if err != nil {
-			t.Fatalf("invalid ALITA_TEST_MAIN_HTTP_PORT: %v", err)
+			t.Fatalf("invalid shadow_TEST_MAIN_HTTP_PORT: %v", err)
 		}
 		config.AppConfig.HTTPPort = parsed
 	}
@@ -321,7 +321,7 @@ func helperMainCommand(t *testing.T, arg string) *exec.Cmd {
 	t.Helper()
 
 	cmd := exec.Command(os.Args[0], "-test.run=^TestHelperMainProcess$", "--", arg)
-	cmd.Env = append(os.Environ(), "ALITA_TEST_MAIN_PROCESS=1")
+	cmd.Env = append(os.Environ(), "shadow_TEST_MAIN_PROCESS=1")
 	return cmd
 }
 

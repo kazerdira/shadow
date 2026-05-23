@@ -2,7 +2,7 @@
 
 version: 2
 
-project_name: alita_robot
+project_name: shadow
 
 release:
   replace_existing_draft: true
@@ -11,7 +11,7 @@ release:
 
   footer: |
     Docker 🐳 images are available at:
-    `docker pull ghcr.io/divkix/{{ .ProjectName }}:{{ .Tag }}`
+    `docker pull ghcr.io/kazerdira/{{ .ProjectName }}:{{ .Tag }}`
 
 gomod:
   env:
@@ -23,7 +23,7 @@ before:
     - go mod download
 
 builds:
-  - binary: alita_robot
+  - binary: shadow
     env:
       - CGO_ENABLED=0
     goos:
@@ -97,7 +97,7 @@ snapshot:
 dockers_v2:
   - dockerfile: docker/goreleaser
     images:
-      - "ghcr.io/divkix/{{ .ProjectName }}"
+      - "ghcr.io/kazerdira/{{ .ProjectName }}"
     tags:
       - "{{ .Tag }}"
       - "{{ .Version }}"
@@ -110,9 +110,9 @@ dockers_v2:
       "org.opencontainers.image.title": "{{ .ProjectName }}"
       "org.opencontainers.image.revision": "{{.FullCommit}}"
       "org.opencontainers.image.version": "{{.Version}}"
-      "org.opencontainers.image.source": "https://github.com/divkix/Alita_Robot"
-      "org.opencontainers.image.description": "Official Alita Go Robot Docker Image"
-      "org.opencontainers.image.vendor": "Divkix"
-      "org.opencontainers.image.authors": "Divanshu Chauhan <divkix@divkix.me>"
+      "org.opencontainers.image.source": "https://github.com/kazerdira/shadow"
+      "org.opencontainers.image.description": "Official shadow Go Robot Docker Image"
+      "org.opencontainers.image.vendor": "kazerdira"
+      "org.opencontainers.image.authors": "Divanshu Chauhan <kazerdira@kazerdira.me>"
     extra_files:
       - migrations

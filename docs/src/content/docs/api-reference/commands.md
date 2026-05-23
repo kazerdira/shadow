@@ -1,12 +1,12 @@
 ---
 title: Command Reference
-description: Complete reference of all Alita Robot commands
+description: Complete reference of all shadow Robot commands
 ---
 <!-- MANUALLY MAINTAINED: do not regenerate -->
 
 # Command Reference
 
-This page provides a complete reference of all commands available in Alita Robot.
+This page provides a complete reference of all commands available in shadow Robot.
 
 ## Overview
 

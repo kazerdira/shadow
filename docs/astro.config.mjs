@@ -8,10 +8,10 @@ import starlightLinksValidator from "starlight-links-validator";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://alita-docs.divkix.me",
+	site: "https://shadow-docs.kazerdira.me",
 	integrations: [
 		starlight({
-			title: "Alita Robot",
+			title: "shadow Robot",
 			plugins: [
 				starlightClientMermaid(),
 				starlightLlmsTxt(),
@@ -21,7 +21,7 @@ export default defineConfig({
 				{
 					icon: "github",
 					label: "GitHub",
-					href: "https://github.com/divkix/Alita_Robot",
+					href: "https://github.com/kazerdira/shadow",
 				},
 			],
 			sidebar: [

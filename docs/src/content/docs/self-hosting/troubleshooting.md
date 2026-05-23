@@ -1,11 +1,11 @@
 ---
 title: Troubleshooting
-description: Common issues and solutions for Alita Robot.
+description: Common issues and solutions for shadow Robot.
 ---
 
 # Troubleshooting
 
-This guide covers common issues you may encounter when running Alita Robot and how to resolve them.
+This guide covers common issues you may encounter when running shadow Robot and how to resolve them.
 
 ## Bot Won't Start
 
@@ -54,7 +54,7 @@ BOT_TOKEN="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
 2. **Verify connection string:**
    ```bash
    # Test connection directly
-   psql "postgres://user:pass@localhost:5432/alita?sslmode=disable"
+   psql "postgres://user:pass@localhost:5432/shadow?sslmode=disable"
    ```
 
 3. **Check network access:**
@@ -63,7 +63,7 @@ BOT_TOKEN="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
    nc -zv localhost 5432
    ```
 
-4. **Docker Compose:** Ensure PostgreSQL is healthy before Alita starts:
+4. **Docker Compose:** Ensure PostgreSQL is healthy before shadow starts:
    ```yaml
    depends_on:
      postgres:
@@ -91,7 +91,7 @@ BOT_TOKEN="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
    REDIS_PASSWORD=your_password  # Leave empty if no password
    ```
 
-3. **Docker:** Ensure Redis is started before Alita
+3. **Docker:** Ensure Redis is started before shadow
 
 ### MESSAGE_DUMP Invalid
 
@@ -219,7 +219,7 @@ Only use `AUTO_MIGRATE_SILENT_FAIL=true` in development. In production, always i
 
 **Error:**
 ```
-pq: too many connections for role "alita"
+pq: too many connections for role "shadow"
 ```
 
 **Solutions:**
@@ -238,7 +238,7 @@ pq: too many connections for role "alita"
 
 3. **Use connection pooling (PgBouncer):**
    ```bash
-   DATABASE_URL=postgres://user:pass@pgbouncer:6432/alita
+   DATABASE_URL=postgres://user:pass@pgbouncer:6432/shadow
    ```
 
 ### Query Timeout
@@ -412,13 +412,13 @@ DEBUG=true
 
 ```bash
 # Docker
-docker-compose logs alita 2>&1 | grep -i error
+docker-compose logs shadow 2>&1 | grep -i error
 
 # Systemd
-journalctl -u alita-robot | grep -i error
+journalctl -u shadow-robot | grep -i error
 
 # Last 100 errors
-docker-compose logs --tail=1000 alita 2>&1 | grep -i error | tail -100
+docker-compose logs --tail=1000 shadow 2>&1 | grep -i error | tail -100
 ```
 
 ### Log Levels
@@ -440,17 +440,17 @@ docker-compose logs --tail=1000 alita 2>&1 | grep -i error | tail -100
 docker-compose ps
 
 # View logs
-docker-compose logs alita
+docker-compose logs shadow
 
 # Check for OOM kill
-docker inspect alita-robot | grep -i oom
+docker inspect shadow-robot | grep -i oom
 ```
 
 ### Health Check Failing
 
 ```bash
 # Test health endpoint manually
-docker-compose exec alita /alita_robot --health
+docker-compose exec shadow /shadow --health
 
 # Or from host
 curl http://localhost:8080/health
@@ -464,10 +464,10 @@ Inside Docker Compose, services communicate by service name, not `localhost`. Us
 
 ```bash
 # Check network
-docker network inspect alita_robot_default
+docker network inspect shadow_default
 
 # Verify service names match in DATABASE_URL and REDIS_ADDRESS
-DATABASE_URL=postgresql://alita:alita@postgres:5432/alita  # Use service name, not localhost
+DATABASE_URL=postgresql://shadow:shadow@postgres:5432/shadow  # Use service name, not localhost
 ```
 
 ## Internationalization (i18n) Issues
@@ -518,7 +518,7 @@ DATABASE_URL=postgresql://alita:alita@postgres:5432/alita  # Use service name, n
 
 If you cannot resolve an issue:
 
-1. **Check existing issues:** [GitHub Issues](https://github.com/divkix/Alita_Robot/issues)
+1. **Check existing issues:** [GitHub Issues](https://github.com/kazerdira/shadow/issues)
 2. **Enable debug logging** and collect relevant logs
 3. **Open a new issue** with:
    - Full error message

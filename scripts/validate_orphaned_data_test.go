@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/divkix/Alita_Robot/alita/db"
+	"github.com/kazerdira/shadow/shadow/db"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )

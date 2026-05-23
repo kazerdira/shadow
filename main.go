@@ -15,29 +15,29 @@ import (
 	"github.com/PaulSonOfLars/gotgbot/v2"
 	"github.com/PaulSonOfLars/gotgbot/v2/ext"
 
-	"github.com/divkix/Alita_Robot/alita/utils/constants"
+	"github.com/kazerdira/shadow/shadow/utils/constants"
 
-	"github.com/divkix/Alita_Robot/alita"
-	"github.com/divkix/Alita_Robot/alita/config"
-	"github.com/divkix/Alita_Robot/alita/db"
-	"github.com/divkix/Alita_Robot/alita/i18n"
-	"github.com/divkix/Alita_Robot/alita/modules"
-	"github.com/divkix/Alita_Robot/alita/utils/async"
-	"github.com/divkix/Alita_Robot/alita/utils/cache"
-	"github.com/divkix/Alita_Robot/alita/utils/error_handling"
-	"github.com/divkix/Alita_Robot/alita/utils/errors"
-	"github.com/divkix/Alita_Robot/alita/utils/helpers"
-	"github.com/divkix/Alita_Robot/alita/utils/httpserver"
-	"github.com/divkix/Alita_Robot/alita/utils/keyword_matcher"
-	"github.com/divkix/Alita_Robot/alita/utils/monitoring"
-	"github.com/divkix/Alita_Robot/alita/utils/shutdown"
-	"github.com/divkix/Alita_Robot/alita/utils/tracing"
+	"github.com/kazerdira/shadow/shadow"
+	"github.com/kazerdira/shadow/shadow/config"
+	"github.com/kazerdira/shadow/shadow/db"
+	"github.com/kazerdira/shadow/shadow/i18n"
+	"github.com/kazerdira/shadow/shadow/modules"
+	"github.com/kazerdira/shadow/shadow/utils/async"
+	"github.com/kazerdira/shadow/shadow/utils/cache"
+	"github.com/kazerdira/shadow/shadow/utils/error_handling"
+	"github.com/kazerdira/shadow/shadow/utils/errors"
+	"github.com/kazerdira/shadow/shadow/utils/helpers"
+	"github.com/kazerdira/shadow/shadow/utils/httpserver"
+	"github.com/kazerdira/shadow/shadow/utils/keyword_matcher"
+	"github.com/kazerdira/shadow/shadow/utils/monitoring"
+	"github.com/kazerdira/shadow/shadow/utils/shutdown"
+	"github.com/kazerdira/shadow/shadow/utils/tracing"
 )
 
 //go:embed locales
 var Locales embed.FS
 
-// main initializes and starts the Alita Robot Telegram bot.
+// main initializes and starts the shadow Robot Telegram bot.
 // It sets up monitoring, database connections, webhook/polling mode,
 // loads all modules, and handles graceful shutdown.
 func main() {
@@ -169,7 +169,7 @@ func main() {
 	}()
 
 	// some initial checks before running bot
-	if err := alita.InitialChecks(b); err != nil {
+	if err := shadow.InitialChecks(b); err != nil {
 		log.Fatalf("Initial checks failed: %v", err)
 	}
 
@@ -472,8 +472,8 @@ func dispatcherErrorHandler(_ *gotgbot.Bot, ctx *ext.Context, err error) ext.Dis
 // for both webhook and polling modes. It loads modules, sets bot commands,
 // and sends the startup notification message.
 func postInit(b *gotgbot.Bot, d *ext.Dispatcher, username string, mode string) {
-	alita.LoadModules(d)
-	log.Infof("[Modules] Loaded modules: %s", alita.ListModules())
+	shadow.LoadModules(d)
+	log.Infof("[Modules] Loaded modules: %s", shadow.ListModules())
 
 	config.AppConfig.WorkingMode = mode
 
@@ -498,7 +498,7 @@ func postInit(b *gotgbot.Bot, d *ext.Dispatcher, username string, mode string) {
 
 	// send startup message to log group
 	_, err = b.SendMessage(config.AppConfig.MessageDump,
-		fmt.Sprintf("<b>Started Bot!</b>\n<b>Mode:</b> %s\n<b>Loaded Modules:</b>\n%s", mode, alita.ListModules()),
+		fmt.Sprintf("<b>Started Bot!</b>\n<b>Mode:</b> %s\n<b>Loaded Modules:</b>\n%s", mode, shadow.ListModules()),
 		&gotgbot.SendMessageOpts{
 			ParseMode: helpers.HTML,
 		},

@@ -5,7 +5,7 @@ description: Debug performance issues using Go pprof.
 
 # Performance Profiling
 
-Alita Robot supports Go's pprof profiling tool for diagnosing performance bottlenecks. This guide covers how to enable and use profiling endpoints.
+shadow Robot supports Go's pprof profiling tool for diagnosing performance bottlenecks. This guide covers how to enable and use profiling endpoints.
 
 :::danger[Production Safety]
 pprof endpoints should **NEVER** be enabled in production. They expose detailed runtime information including memory contents, goroutine stacks, and internal state that can aid attackers. Only enable for development or debugging temporary issues in staging environments behind a firewall.

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# PostgreSQL Migration Script for Alita Robot (vendor-agnostic)
+# PostgreSQL Migration Script for shadow Robot (vendor-agnostic)
 # Uses migrations/ as source-of-truth and auto-cleans for plain PostgreSQL
 
 set -e

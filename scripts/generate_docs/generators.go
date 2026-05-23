@@ -185,11 +185,11 @@ func generateCommandReference(modules []Module, outputPath string) error {
 	// Starlight frontmatter
 	content.WriteString("---\n")
 	content.WriteString("title: Command Reference\n")
-	content.WriteString("description: Complete reference of all Alita Robot commands\n")
+	content.WriteString("description: Complete reference of all shadow Robot commands\n")
 	content.WriteString("---\n\n")
 
 	content.WriteString("# 🤖 Command Reference\n\n")
-	content.WriteString("This page provides a complete reference of all commands available in Alita Robot.\n\n")
+	content.WriteString("This page provides a complete reference of all commands available in shadow Robot.\n\n")
 
 	// Summary statistics
 	totalCommands := 0
@@ -307,7 +307,7 @@ func generateEnvReference(envVars []EnvVar, outputPath string) error {
 	content.WriteString("---\n\n")
 
 	content.WriteString("# ⚙️ Environment Variables\n\n")
-	content.WriteString("This page documents all environment variables used to configure Alita Robot.\n\n")
+	content.WriteString("This page documents all environment variables used to configure shadow Robot.\n\n")
 
 	// Group by category
 	categories := make(map[string][]EnvVar)
@@ -474,7 +474,7 @@ func generateSchemaReference(tables []DBTable, outputPath string) error {
 	content.WriteString("---\n\n")
 
 	content.WriteString("# 🗄️ Database Schema\n\n")
-	content.WriteString("This page documents the complete PostgreSQL database schema for Alita Robot.\n\n")
+	content.WriteString("This page documents the complete PostgreSQL database schema for shadow Robot.\n\n")
 
 	// Overview
 	content.WriteString("## Overview\n\n")
@@ -619,7 +619,7 @@ func generateCommandsOverview(modules []Module, outputPath string) error {
 	content.WriteString("---\n\n")
 
 	content.WriteString("# 📚 Commands Overview\n\n")
-	content.WriteString("Alita Robot provides a comprehensive set of commands organized into modules. ")
+	content.WriteString("shadow Robot provides a comprehensive set of commands organized into modules. ")
 	content.WriteString("Each module handles a specific aspect of group management.\n\n")
 
 	// Statistics
@@ -699,7 +699,7 @@ func generateCommandsOverview(modules []Module, outputPath string) error {
 	content.WriteString("### Command Prefixes\n\n")
 	content.WriteString("Commands can be used with or without the bot username:\n\n")
 	content.WriteString("- `/start` - Works in private chat or group\n")
-	content.WriteString("- `/start@AlitaRobot` - Explicitly targets this bot in groups\n\n")
+	content.WriteString("- `/start@shadowRobot` - Explicitly targets this bot in groups\n\n")
 
 	content.WriteString("### Getting Help\n\n")
 	content.WriteString("- `/help` - Show general help and module list\n")
@@ -1048,7 +1048,7 @@ func generateCallbacksReference(callbacks []Callback, outputPath string) error {
 
 	// Overview
 	content.WriteString("# 🔔 Callback Queries\n\n")
-	content.WriteString("This page documents all inline button callback handlers in Alita Robot.\n\n")
+	content.WriteString("This page documents all inline button callback handlers in shadow Robot.\n\n")
 	content.WriteString("## Overview\n\n")
 	fmt.Fprintf(&content, "- **Total Callbacks**: %d\n", len(callbacks))
 
@@ -1158,10 +1158,10 @@ func generatePermissionsReference(permissions []PermissionFunc, outputPath strin
 
 	// Overview
 	content.WriteString("# 🔐 Permission System\n\n")
-	content.WriteString("This page documents all permission checking functions in Alita Robot.\n\n")
+	content.WriteString("This page documents all permission checking functions in shadow Robot.\n\n")
 	content.WriteString("## Overview\n\n")
 	fmt.Fprintf(&content, "- **Total Functions**: %d\n", len(permissions))
-	content.WriteString("- **Location**: `alita/utils/chat_status/chat_status.go`\n\n")
+	content.WriteString("- **Location**: `shadow/utils/chat_status/chat_status.go`\n\n")
 
 	// Summary table
 	content.WriteString("## Function Summary\n\n")

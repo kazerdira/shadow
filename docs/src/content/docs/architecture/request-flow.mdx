@@ -1,11 +1,11 @@
 ---
 title: Request Flow
-description: How Telegram updates are processed through the Alita Robot pipeline.
+description: How Telegram updates are processed through the shadow Robot pipeline.
 ---
 
 import { Badge, Steps } from '@astrojs/starlight/components';
 
-This document details how Telegram updates flow through Alita Robot, from reception to response.
+This document details how Telegram updates flow through shadow Robot, from reception to response.
 
 ## Update Processing Pipeline
 
@@ -147,7 +147,7 @@ When the bot starts (`main.go`), it performs these steps in order:
     Validates configuration and performs startup health checks.
     
     ```go
-    alita.InitialChecks(b)  // Validates config and performs startup health checks
+    shadow.InitialChecks(b)  // Validates config and performs startup health checks
     ```
 
 11. **Async Processor** <Badge text="Optional" variant="default" />
@@ -210,7 +210,7 @@ When the bot starts (`main.go`), it performs these steps in order:
 
 ## Module Loading Order
 
-After dispatcher creation, modules are loaded via `alita/main.go`:
+After dispatcher creation, modules are loaded via `shadow/main.go`:
 
 ```go
 func LoadModules(dispatcher *ext.Dispatcher) {

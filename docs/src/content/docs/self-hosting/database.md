@@ -1,11 +1,11 @@
 ---
 title: Database Configuration
-description: Configure and manage PostgreSQL database for Alita Robot.
+description: Configure and manage PostgreSQL database for shadow Robot.
 ---
 
 # Database Configuration
 
-Alita Robot uses PostgreSQL as its primary database with GORM as the ORM layer. This guide covers database setup, migrations, connection pooling, and schema design.
+shadow Robot uses PostgreSQL as its primary database with GORM as the ORM layer. This guide covers database setup, migrations, connection pooling, and schema design.
 
 ## Requirements
 
@@ -26,13 +26,13 @@ Configure the database URL in your environment:
 DATABASE_URL=postgres://username:password@host:port/database?sslmode=disable
 
 # Example (local development)
-DATABASE_URL=postgres://postgres:password@localhost:5432/alita_robot?sslmode=disable
+DATABASE_URL=postgres://postgres:password@localhost:5432/shadow?sslmode=disable
 
 # Example (Docker Compose)
-DATABASE_URL=postgresql://alita:alita@postgres:5432/alita
+DATABASE_URL=postgresql://shadow:shadow@postgres:5432/shadow
 
 # Example (production with SSL)
-DATABASE_URL=postgres://user:pass@db.example.com:5432/alita?sslmode=require
+DATABASE_URL=postgres://user:pass@db.example.com:5432/shadow?sslmode=require
 ```
 
 ### SSL Modes
@@ -50,7 +50,7 @@ Never use `sslmode=disable` in production. Always use `require` or stronger to p
 
 ## Automatic Migrations
 
-Alita Robot supports automatic database migrations on startup, eliminating the need to manually run migration commands.
+shadow Robot supports automatic database migrations on startup, eliminating the need to manually run migration commands.
 
 ### Enabling Auto-Migration
 
@@ -106,7 +106,7 @@ If you prefer manual control over migrations, use the Makefile targets:
 ```bash
 # Set required environment variables
 export PSQL_DB_HOST=localhost
-export PSQL_DB_NAME=alita
+export PSQL_DB_NAME=shadow
 export PSQL_DB_USER=postgres
 export PSQL_DB_PASSWORD=password
 export PSQL_DB_PORT=5432  # Optional, defaults to 5432
@@ -206,7 +206,7 @@ Start with the defaults and only adjust pool settings if you observe connection 
 
 ## Schema Design Patterns
 
-Alita Robot uses a **surrogate key pattern** for all database tables:
+shadow Robot uses a **surrogate key pattern** for all database tables:
 
 ### Primary Keys
 
@@ -246,7 +246,7 @@ Chat membership is managed via the JSONB `users` column on the `chats` table, no
 
 ## Database Tables
 
-Alita Robot creates the following tables:
+shadow Robot creates the following tables:
 
 | Table | Purpose |
 |-------|---------|
@@ -288,26 +288,26 @@ Always test your backup restoration process before relying on it in production. 
 
 ```bash
 # Using pg_dump
-pg_dump -h localhost -U postgres -d alita > backup.sql
+pg_dump -h localhost -U postgres -d shadow > backup.sql
 
 # Compressed backup
-pg_dump -h localhost -U postgres -d alita | gzip > backup.sql.gz
+pg_dump -h localhost -U postgres -d shadow | gzip > backup.sql.gz
 
 # Docker
-docker-compose exec -T postgres pg_dump -U alita -d alita > backup.sql
+docker-compose exec -T postgres pg_dump -U shadow -d shadow > backup.sql
 ```
 
 ### Restore
 
 ```bash
 # From SQL file
-psql -h localhost -U postgres -d alita < backup.sql
+psql -h localhost -U postgres -d shadow < backup.sql
 
 # From compressed file
-gunzip -c backup.sql.gz | psql -h localhost -U postgres -d alita
+gunzip -c backup.sql.gz | psql -h localhost -U postgres -d shadow
 
 # Docker
-docker-compose exec -T postgres psql -U alita -d alita < backup.sql
+docker-compose exec -T postgres psql -U shadow -d shadow < backup.sql
 ```
 
 ## Troubleshooting

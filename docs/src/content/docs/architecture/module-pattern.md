@@ -1,9 +1,9 @@
 ---
 title: Module Pattern
-description: How to create new feature modules for Alita Robot.
+description: How to create new feature modules for shadow Robot.
 ---
 
-This guide explains how to add new feature modules to Alita Robot, following the established patterns and conventions.
+This guide explains how to add new feature modules to shadow Robot, following the established patterns and conventions.
 
 ## Module Structure Template
 
@@ -22,11 +22,11 @@ import (
     "github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/filters/callbackquery"
     log "github.com/sirupsen/logrus"
 
-    "github.com/divkix/Alita_Robot/alita/db"
-    "github.com/divkix/Alita_Robot/alita/i18n"
-    "github.com/divkix/Alita_Robot/alita/utils/chat_status"
-    "github.com/divkix/Alita_Robot/alita/utils/extraction"
-    "github.com/divkix/Alita_Robot/alita/utils/helpers"
+    "github.com/kazerdira/shadow/shadow/db"
+    "github.com/kazerdira/shadow/shadow/i18n"
+    "github.com/kazerdira/shadow/shadow/utils/chat_status"
+    "github.com/kazerdira/shadow/shadow/utils/extraction"
+    "github.com/kazerdira/shadow/shadow/utils/helpers"
 )
 
 // Module struct with name for help system
@@ -118,7 +118,7 @@ func LoadExample(dispatcher *ext.Dispatcher) {
 
 ### Step 1: Create Database Model (If Needed)
 
-Create a new file `alita/db/example_db.go`:
+Create a new file `shadow/db/example_db.go`:
 
 ```go
 package db
@@ -197,7 +197,7 @@ Always use auto-increment `id` as the primary key. External IDs (`chat_id`, `use
 
 ### Step 3: Implement Database Operations
 
-Add cache helpers to `alita/db/cache_helpers.go` using the CacheKey helper:
+Add cache helpers to `shadow/db/cache_helpers.go` using the CacheKey helper:
 
 ```go
 const (
@@ -234,7 +234,7 @@ func GetExampleSettings(chatID int64) *ExampleSettings {
 ```
 
 :::tip[CacheKey helper]
-The `CacheKey()` function in `cache_helpers.go` provides consistent key formatting as `alita:{module}:{id}`. Always use it instead of manual string formatting.
+The `CacheKey()` function in `cache_helpers.go` provides consistent key formatting as `shadow:{module}:{id}`. Always use it instead of manual string formatting.
 :::
 
 :::tip[Cache invalidation is mandatory]
@@ -269,7 +269,7 @@ You must add keys to ALL locale files, not just `en.yml`. Missing keys cause run
 
 ### Step 5: Register Module
 
-Add to `alita/main.go` in `LoadModules`:
+Add to `shadow/main.go` in `LoadModules`:
 
 ```go
 func LoadModules(dispatcher *ext.Dispatcher) {
@@ -433,10 +433,10 @@ import (
     "github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
     log "github.com/sirupsen/logrus"
 
-    "github.com/divkix/Alita_Robot/alita/db"
-    "github.com/divkix/Alita_Robot/alita/i18n"
-    "github.com/divkix/Alita_Robot/alita/utils/chat_status"
-    "github.com/divkix/Alita_Robot/alita/utils/helpers"
+    "github.com/kazerdira/shadow/shadow/db"
+    "github.com/kazerdira/shadow/shadow/i18n"
+    "github.com/kazerdira/shadow/shadow/utils/chat_status"
+    "github.com/kazerdira/shadow/shadow/utils/helpers"
 )
 
 var welcomeModule = moduleStruct{moduleName: "Welcome"}
@@ -527,7 +527,7 @@ func LoadWelcome(dispatcher *ext.Dispatcher) {
 When displaying user-controlled data in HTML-formatted messages, always escape it:
 
 ```go
-import "github.com/divkix/Alita_Robot/alita/utils/helpers"
+import "github.com/kazerdira/shadow/shadow/utils/helpers"
 
 // Escape chat titles, usernames, and user-supplied text
 text := fmt.Sprintf("Settings for %s", helpers.HtmlEscape(chat.Title))

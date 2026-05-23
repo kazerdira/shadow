@@ -1,11 +1,11 @@
 ---
 title: Architecture Overview
-description: High-level architecture and design principles of Alita Robot.
+description: High-level architecture and design principles of shadow Robot.
 ---
 
 import { Badge, Tabs, TabItem, Card, CardGrid } from '@astrojs/starlight/components';
 
-Alita Robot is a modern Telegram group management bot built with Go and the gotgbot library. This document provides an overview of the architectural decisions, technology stack, and design principles that guide the codebase.
+shadow Robot is a modern Telegram group management bot built with Go and the gotgbot library. This document provides an overview of the architectural decisions, technology stack, and design principles that guide the codebase.
 
 ## Technology Stack
 
@@ -33,7 +33,7 @@ Alita Robot is a modern Telegram group management bot built with Go and the gotg
     | **Client** | <Badge text="gocache" variant="caution" /> | Go cache library with marshaling |
     | **Stampede Protection** | <Badge text="singleflight" variant="default" /> | Prevents thundering herd on cache misses |
 
-    All cache keys are prefixed with `alita:` for namespace isolation. TTLs range from 20 seconds (anonymous admin verification) to 1 hour (language preferences).
+    All cache keys are prefixed with `shadow:` for namespace isolation. TTLs range from 20 seconds (anonymous admin verification) to 1 hour (language preferences).
   </TabItem>
   <TabItem label="Monitoring">
     | Component | Technology | Purpose |
@@ -51,13 +51,13 @@ Alita Robot is a modern Telegram group management bot built with Go and the gotg
     Routes incoming Telegram updates to appropriate handlers. Configurable max goroutines (default: 200) with enhanced error handling and panic recovery.
   </Card>
   <Card title="Module System" icon="puzzle">
-    Feature modules in `alita/modules/` follow a consistent pattern: `moduleStruct`, handler methods, `LoadModule` registration. Help module loads last to collect all commands.
+    Feature modules in `shadow/modules/` follow a consistent pattern: `moduleStruct`, handler methods, `LoadModule` registration. Help module loads last to collect all commands.
   </Card>
   <Card title="Cache Layer" icon="star">
     Redis caching with singleflight stampede protection. Per-type TTLs, automatic invalidation on writes, and traced operations via OpenTelemetry.
   </Card>
   <Card title="Permission System" icon="approve-check">
-    Centralized permission validation in `alita/utils/chat_status/`. Checks are cached to reduce Telegram API calls. Supports anonymous admin detection.
+    Centralized permission validation in `shadow/utils/chat_status/`. Checks are cached to reduce Telegram API calls. Supports anonymous admin detection.
   </Card>
   <Card title="Monitoring" icon="seti:config">
     4-tier auto-remediation, activity tracking (per-chat and per-user DAU/WAU/MAU), background stats every 30s, and GC triggers on memory thresholds.
@@ -71,7 +71,7 @@ Alita Robot is a modern Telegram group management bot built with Go and the gotg
 
 ### 1. Domain Functions Pattern
 
-All database operations are organized by domain in `alita/db/*_db.go` files. Each file provides Get/Add/Update/Delete functions for its domain, with surrogate key pattern (auto-increment `id` as PK, external IDs as unique constraints):
+All database operations are organized by domain in `shadow/db/*_db.go` files. Each file provides Get/Add/Update/Delete functions for its domain, with surrogate key pattern (auto-increment `id` as PK, external IDs as unique constraints):
 
 ```go
 // Example: Direct domain function calls
@@ -81,7 +81,7 @@ db.UpdateChatSettings(chatId, newSettings)
 
 ### 2. Decorator Pattern
 
-Middleware functionality is implemented through decorators in `alita/utils/helpers/decorators.go`. Common cross-cutting concerns are handled uniformly:
+Middleware functionality is implemented through decorators in `shadow/utils/helpers/decorators.go`. Common cross-cutting concerns are handled uniformly:
 
 - Permission checking (admin, restrict, delete rights)
 - Error handling with panic recovery
@@ -175,13 +175,13 @@ Each feature module follows a consistent pattern:
 1. Define a `moduleStruct` with module name
 2. Implement handler functions as methods
 3. Register handlers in a `LoadModule` function
-4. Module loaded via `alita/main.go` in specific order
+4. Module loaded via `shadow/main.go` in specific order
 
 ### Cache Layer
 
 Redis caching with stampede protection:
 
-- **Cache Keys**: Prefixed with `alita:` for namespace isolation
+- **Cache Keys**: Prefixed with `shadow:` for namespace isolation
 - **Stampede Protection**: Singleflight prevents concurrent cache rebuilds
 - **TTL Management**: Per-type expiration (settings: 30min, language: 1hr)
 
@@ -231,7 +231,7 @@ shutdownManager.RegisterHandler(func() error {
 
 ## Error Handling Strategy
 
-Alita uses a 4-layer error handling hierarchy:
+shadow uses a 4-layer error handling hierarchy:
 
 :::note[Error Recovery Layers]
 The 4-layer hierarchy ensures that no panic or error goes unhandled. Each layer catches what the layer below it might miss, providing defense-in-depth against crashes.

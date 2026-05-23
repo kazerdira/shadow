@@ -6,7 +6,7 @@ description: Complete reference of inline button callback handlers
 
 # Callback Queries
 
-This page documents all inline button callback handlers in Alita Robot.
+This page documents all inline button callback handlers in shadow Robot.
 
 ## Overview
 
@@ -39,7 +39,7 @@ Legacy dot-notation (`prefix.field1.field2`) is accepted by handlers for backwar
 | Bans | `restrict` | restrictButtonHandler |
 | Bans | `unrestrict` | unrestrictButtonHandler |
 | Blacklists | `rmAllBlacklist` | buttonHandler |
-| Bot Updates | `alita:anonAdmin:` | verifyAnonymousAdmin |
+| Bot Updates | `shadow:anonAdmin:` | verifyAnonymousAdmin |
 | Bot Updates | `anon_admin` | verifyAnonymousAdmin |
 | Captcha | `captcha_refresh` | captchaRefreshCallback |
 | Captcha | `captcha_verify` | captchaVerifyCallback |
@@ -93,13 +93,13 @@ Handles backup import/export operations via inline buttons.
 
 ### Bot Updates
 
-#### `alita:anonAdmin:`
+#### `shadow:anonAdmin:`
 
 - **Handler**: `verifyAnonymousAdmin`
 - **Source**: `bot_updates.go`
 
 Legacy dot-notation fallback prefix for anonymous admin verification callbacks.
-Matches patterns like `alita.anonAdmin.<chat_id>.<msg_id>`.
+Matches patterns like `shadow.anonAdmin.<chat_id>.<msg_id>`.
 
 #### `anon_admin`
 

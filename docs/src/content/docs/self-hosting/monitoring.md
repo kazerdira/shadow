@@ -1,11 +1,11 @@
 ---
 title: Monitoring and Observability
-description: Monitor Alita Robot health, metrics, and errors.
+description: Monitor shadow Robot health, metrics, and errors.
 ---
 
 # Monitoring and Observability
 
-Alita Robot provides comprehensive monitoring capabilities including health checks, Prometheus metrics, and resource monitoring.
+shadow Robot provides comprehensive monitoring capabilities including health checks, Prometheus metrics, and resource monitoring.
 
 ## Health Endpoint
 
@@ -68,7 +68,7 @@ Both checks must pass for `healthy` status.
 curl http://localhost:8080/health
 
 # Docker health check (built-in)
-/alita_robot --health
+/shadow --health
 
 # Kubernetes liveness probe
 livenessProbe:
@@ -95,9 +95,9 @@ Add to your `prometheus.yml`:
 
 ```yaml
 scrape_configs:
-  - job_name: 'alita-robot'
+  - job_name: 'shadow-robot'
     static_configs:
-      - targets: ['alita:8080']
+      - targets: ['shadow:8080']
     scrape_interval: 15s
     scrape_timeout: 10s
     metrics_path: /metrics
@@ -115,7 +115,7 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - alita
+      - shadow
 
 volumes:
   prometheus_data:
@@ -144,7 +144,7 @@ volumes:
 
 ## Resource Monitoring
 
-Alita Robot includes automatic resource monitoring to prevent resource exhaustion.
+shadow Robot includes automatic resource monitoring to prevent resource exhaustion.
 
 ### Configuration
 
@@ -314,7 +314,7 @@ Structured log entries include:
   "msg": "Handler error occurred: user blocked bot",
   "update_id": 123456789,
   "error_type": "*gotgbot.TelegramError",
-  "file": "alita/modules/admin.go",
+  "file": "shadow/modules/admin.go",
   "line": 45,
   "function": "handleAdminCommand",
   "time": "2024-03-15T10:30:00Z"
@@ -335,7 +335,7 @@ Structured log entries include:
 ## Alerting
 
 :::tip
-At minimum, set up alerts for `AlitaUnhealthy` and `DatabaseConnectionFailed` to catch critical outages early.
+At minimum, set up alerts for `shadowUnhealthy` and `DatabaseConnectionFailed` to catch critical outages early.
 :::
 
 ### Prometheus Alerting Rules
@@ -344,15 +344,15 @@ Create `alerts.yml`:
 
 ```yaml
 groups:
-  - name: alita-alerts
+  - name: shadow-alerts
     rules:
-      - alert: AlitaUnhealthy
-        expr: up{job="alita-robot"} == 0
+      - alert: shadowUnhealthy
+        expr: up{job="shadow-robot"} == 0
         for: 1m
         labels:
           severity: critical
         annotations:
-          summary: "Alita Robot is down"
+          summary: "shadow Robot is down"
 
       - alert: HighMemoryUsage
         expr: process_resident_memory_bytes > 500000000
@@ -363,7 +363,7 @@ groups:
           summary: "High memory usage detected"
 
       - alert: DatabaseConnectionFailed
-        expr: alita_health_database == 0
+        expr: shadow_health_database == 0
         for: 1m
         labels:
           severity: critical

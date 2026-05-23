@@ -1,20 +1,20 @@
-# Alita Robot 🤖
+# shadow Robot 🤖
 
 <p align='center'>
-  <a href="https://github.com/divkix/Alita_Robot/actions/workflows/ci.yml"><img src="https://github.com/divkix/Alita_Robot/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/divkix/Alita_Robot/actions/workflows/release.yml"> <img src="https://github.com/divkix/Alita_Robot/actions/workflows/release.yml/badge.svg" alt="Release"/> </a>
-  <a href="https://goreportcard.com/report/github.com/divkix/Alita_Robot"><img src="https://goreportcard.com/badge/github.com/divkix/Alita_Robot" alt="Go Report Card"></a>
-  <a href="https://pkg.go.dev/github.com/divkix/Alita_Robot"><img src="https://pkg.go.dev/badge/github.com/divkix/Alita_Robot.svg" alt="Go Reference"></a>
+  <a href="https://github.com/kazerdira/shadow/actions/workflows/ci.yml"><img src="https://github.com/kazerdira/shadow/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/kazerdira/shadow/actions/workflows/release.yml"> <img src="https://github.com/kazerdira/shadow/actions/workflows/release.yml/badge.svg" alt="Release"/> </a>
+  <a href="https://goreportcard.com/report/github.com/kazerdira/shadow"><img src="https://goreportcard.com/badge/github.com/kazerdira/shadow" alt="Go Report Card"></a>
+  <a href="https://pkg.go.dev/github.com/kazerdira/shadow"><img src="https://pkg.go.dev/badge/github.com/kazerdira/shadow.svg" alt="Go Reference"></a>
 </p>
 
 <p align='center'>
-  <img src="https://img.shields.io/github/forks/divkix/Alita_Robot?style=flat-square" alt="Forks">
-  <img src="https://img.shields.io/github/stars/divkix/Alita_Robot?style=flat-square" alt="Stars">
-  <img src="https://img.shields.io/github/issues/divkix/Alita_Robot?style=flat-square" alt="Issues">
-  <img src="https://img.shields.io/github/license/divkix/Alita_Robot?style=flat-square" alt="LICENSE">
-  <img src="https://img.shields.io/github/contributors/divkix/Alita_Robot?style=flat-square" alt="Contributors">
-  <img src="https://img.shields.io/github/repo-size/divkix/Alita_Robot?style=flat-square" alt="Repo Size">
-  <img src="https://img.shields.io/github/v/release/divkix/Alita_Robot?style=flat-square" alt="Release Version">
+  <img src="https://img.shields.io/github/forks/kazerdira/shadow?style=flat-square" alt="Forks">
+  <img src="https://img.shields.io/github/stars/kazerdira/shadow?style=flat-square" alt="Stars">
+  <img src="https://img.shields.io/github/issues/kazerdira/shadow?style=flat-square" alt="Issues">
+  <img src="https://img.shields.io/github/license/kazerdira/shadow?style=flat-square" alt="LICENSE">
+  <img src="https://img.shields.io/github/contributors/kazerdira/shadow?style=flat-square" alt="Contributors">
+  <img src="https://img.shields.io/github/repo-size/kazerdira/shadow?style=flat-square" alt="Repo Size">
+  <img src="https://img.shields.io/github/v/release/kazerdira/shadow?style=flat-square" alt="Release Version">
 </p>
 
 <p align='center'>
@@ -24,13 +24,13 @@
   <a href="https://makeapullrequest.com"> <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" /> </a>
 </p>
 
-> **Alita** is a powerful, modern Telegram group management bot built with Go
+> **shadow** is a powerful, modern Telegram group management bot built with Go
 > and the Gotgbot library. Designed for speed, reliability, and extensive
-> customization, Alita provides comprehensive moderation tools for Telegram
+> customization, shadow provides comprehensive moderation tools for Telegram
 > communities of any size.
 
 <p align='center'>
-<a href="https://render.com/deploy?repo=https://github.com/divkix/Alita_Robot"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render"></a> <a href="https://railway.com/deploy/2vHOTV?referralCode=Divkix"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a> <a href="https://heroku.com/deploy?template=https://github.com/divkix/Alita_Robot"><img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy"></a>
+<a href="https://render.com/deploy?repo=https://github.com/kazerdira/shadow"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render"></a> <a href="https://railway.com/deploy/2vHOTV?referralCode=kazerdira"><img src="https://railway.com/button.svg" alt="Deploy on Railway"></a> <a href="https://heroku.com/deploy?template=https://github.com/kazerdira/shadow"><img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy"></a>
 </p>
 
 ## 📋 Table of Contents
@@ -102,7 +102,7 @@
 
 ## 🚀 Quick Start
 
-Get Alita running in under 5 minutes!
+Get shadow running in under 5 minutes!
 
 ### Prerequisites
 
@@ -114,8 +114,8 @@ Get Alita running in under 5 minutes!
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/divkix/Alita_Robot.git
-cd Alita_Robot
+git clone https://github.com/kazerdira/shadow.git
+cd shadow
 ```
 
 ### Step 2: Configure Environment
@@ -132,7 +132,7 @@ nano .env
 BOT_TOKEN=your_bot_token_from_botfather
 OWNER_ID=your_telegram_user_id
 MESSAGE_DUMP=-100xxxxxxxxx  # Your log channel
-DATABASE_URL=postgres://postgres:password@postgres:5432/alita_robot
+DATABASE_URL=postgres://postgres:password@postgres:5432/shadow
 REDIS_ADDRESS=redis:6379
 ```
 
@@ -145,7 +145,7 @@ docker-compose up -d
 That's it! Your bot should now be running. Check the logs:
 
 ```bash
-docker-compose logs -f alita
+docker-compose logs -f shadow
 ```
 
 ### Interact with Your Bot
@@ -167,7 +167,7 @@ Open Telegram and search for your bot username to start using it!
 
 ### Docker (Recommended)
 
-We provide official Docker images at `ghcr.io/divkix/alita_robot` for easy
+We provide official Docker images at `ghcr.io/kazerdira/shadow` for easy
 deployment.
 
 #### Using Docker Compose (Full Stack)
@@ -176,8 +176,8 @@ This includes PostgreSQL, Redis, and the bot:
 
 ```bash
 # Clone the repository
-git clone https://github.com/divkix/Alita_Robot.git
-cd Alita_Robot
+git clone https://github.com/kazerdira/shadow.git
+cd shadow
 
 # Configure environment
 cp sample.env .env
@@ -187,7 +187,7 @@ cp sample.env .env
 docker-compose up -d
 
 # View logs
-docker-compose logs -f alita
+docker-compose logs -f shadow
 
 # Stop services
 docker-compose down
@@ -214,36 +214,36 @@ If you have existing PostgreSQL and Redis instances:
 
 ```bash
 docker run -d \
-  --name alita-bot \
+  --name shadow-bot \
   --restart unless-stopped \
   -e BOT_TOKEN="your_bot_token" \
   -e DATABASE_URL="your_postgres_url" \
   -e REDIS_ADDRESS="your_redis_address" \
   -e OWNER_ID="your_telegram_id" \
   -e MESSAGE_DUMP="-100xxxxxxxxx" \
-  ghcr.io/divkix/alita_robot:latest
+  ghcr.io/kazerdira/shadow:latest
 ```
 
 ### Binary Release
 
 Download pre-built binaries for your platform:
 
-1. Visit the [Releases](https://github.com/divkix/Alita_Robot/releases) page
+1. Visit the [Releases](https://github.com/kazerdira/shadow/releases) page
 2. Download the appropriate binary for your OS/architecture:
-   - **Linux**: `alita_robot_*_linux_amd64.tar.gz` or `_arm64`
-   - **macOS**: `alita_robot_*_darwin_amd64.tar.gz` or `_arm64`
-   - **Windows**: `alita_robot_*_windows_amd64.zip`
+   - **Linux**: `shadow_*_linux_amd64.tar.gz` or `_arm64`
+   - **macOS**: `shadow_*_darwin_amd64.tar.gz` or `_arm64`
+   - **Windows**: `shadow_*_windows_amd64.zip`
 
 3. Extract and run:
 
 ```bash
 # Linux/macOS
-tar -xzf alita_robot_*.tar.gz
-chmod +x alita_robot
-./alita_robot
+tar -xzf shadow_*.tar.gz
+chmod +x shadow
+./shadow
 
 # Windows
-# Extract the zip file and run alita_robot.exe
+# Extract the zip file and run shadow.exe
 ```
 
 ### Build from Source
@@ -259,20 +259,20 @@ chmod +x alita_robot
 
 ```bash
 # Clone the repository
-git clone https://github.com/divkix/Alita_Robot.git
-cd Alita_Robot
+git clone https://github.com/kazerdira/shadow.git
+cd shadow
 
 # Install dependencies
 go mod download
 
 # Build the binary
-go build -o alita_robot .
+go build -o shadow .
 
 # Or use make
 make build
 
 # Run the bot
-./alita_robot
+./shadow
 
 # (Recommended) Run database migrations before the first run
 # Provide your Postgres connection via env vars:
@@ -296,7 +296,7 @@ make run
 
 ### Environment Variables
 
-Alita uses environment variables for configuration. Create a `.env` file in the
+shadow uses environment variables for configuration. Create a `.env` file in the
 project root:
 
 #### Required Variables
@@ -329,7 +329,7 @@ database pool tuning, worker pool sizes, monitoring, and performance settings.
 ### Webhook Mode (Production)
 
 For production deployments, webhook mode provides better performance and lower
-resource usage than polling. Alita supports webhooks with Cloudflare Tunnel for
+resource usage than polling. shadow supports webhooks with Cloudflare Tunnel for
 easy setup behind firewalls.
 
 #### Prerequisites
@@ -342,7 +342,7 @@ easy setup behind firewalls.
 1. Go to [Cloudflare Zero Trust Dashboard](https://one.dash.cloudflare.com)
 2. Navigate to **Networks > Tunnels**
 3. Click **Create a tunnel** → Choose **Cloudflared**
-4. Name your tunnel (e.g., `alita-telegram-bot`)
+4. Name your tunnel (e.g., `shadow-telegram-bot`)
 5. **Copy the tunnel token** from the command shown (the long string after
    `--token`)
 
@@ -351,9 +351,9 @@ easy setup behind firewalls.
 1. In your tunnel dashboard, go to **Public Hostnames** tab
 2. Click **Add a public hostname**
 3. Configure:
-   - **Subdomain**: `alita-bot` (or your preference)
+   - **Subdomain**: `shadow-bot` (or your preference)
    - **Domain**: Select your domain
-   - **Service**: `http://alita:8080`
+   - **Service**: `http://shadow:8080`
    - **Path**: `/webhook/your-secret` (replace with your actual
      `WEBHOOK_SECRET`)
 
@@ -368,13 +368,13 @@ OWNER_ID=your_telegram_user_id
 MESSAGE_DUMP=-100xxxxxxxxx
 
 # Database Configuration
-DATABASE_URL=postgres://postgres:password@postgres:5432/alita_robot?sslmode=disable
+DATABASE_URL=postgres://postgres:password@postgres:5432/shadow?sslmode=disable
 REDIS_ADDRESS=redis:6379
 REDIS_PASSWORD=your_redis_password
 
 # Webhook Configuration
 USE_WEBHOOKS=true
-WEBHOOK_DOMAIN=https://alita-bot.yourdomain.com
+WEBHOOK_DOMAIN=https://shadow-bot.yourdomain.com
 WEBHOOK_SECRET=your-random-secret-string-here
 HTTP_PORT=8080
 
@@ -390,13 +390,13 @@ Uncomment the `cloudflared` service in your `docker-compose.yml`:
 # Uncomment this section for webhook mode
 cloudflared:
   image: cloudflare/cloudflared:latest
-  container_name: alita-cloudflared
+  container_name: shadow-cloudflared
   environment:
     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
   command: tunnel --no-autoupdate run
   restart: unless-stopped
   depends_on:
-    - alita
+    - shadow
   deploy:
     resources:
       limits:
@@ -414,7 +414,7 @@ After your bot is running, register the webhook URL with Telegram:
 curl -X POST "https://api.telegram.org/botYOUR_BOT_TOKEN/setWebhook" \
   -H "Content-Type: application/json" \
   -d '{
-    "url": "https://alita-bot.yourdomain.com/webhook/your-secret",
+    "url": "https://shadow-bot.yourdomain.com/webhook/your-secret",
     "secret_token": "your-secret"
   }'
 ```
@@ -510,7 +510,7 @@ USE_WEBHOOKS=false
 - **Developer Guide**: See [CLAUDE.md](CLAUDE.md) for detailed architecture and
   development guidelines
 - **API Reference**: Run `go doc` or visit
-  [pkg.go.dev](https://pkg.go.dev/github.com/divkix/Alita_Robot) for API
+  [pkg.go.dev](https://pkg.go.dev/github.com/kazerdira/shadow) for API
   documentation
 
 ## 🔨 Development
@@ -518,8 +518,8 @@ USE_WEBHOOKS=false
 ### Project Structure
 
 ```
-Alita_Robot/
-├── alita/              # Core bot code
+shadow/
+├── shadow/              # Core bot code
 │   ├── config/         # Configuration management
 │   ├── db/             # Database layer
 │   ├── modules/        # Command handlers
@@ -553,8 +553,8 @@ Alita_Robot/
 
 3. **Clone and Build**
    ```bash
-   git clone https://github.com/divkix/Alita_Robot.git
-   cd Alita_Robot
+   git clone https://github.com/kazerdira/shadow.git
+   cd shadow
    go mod download
    make build
    ```
@@ -585,7 +585,7 @@ Alita_Robot/
    ```bash
    # Example: local Postgres
    export PSQL_DB_HOST="localhost"
-   export PSQL_DB_NAME="alita_robot"
+   export PSQL_DB_NAME="shadow"
    export PSQL_DB_USER="postgres"
    export PSQL_DB_PASSWORD="password"
    # export PSQL_DB_PORT="5432"       # optional
@@ -625,9 +625,9 @@ make psql-reset   # Reset database (DANGEROUS)
 
 ### Adding New Features
 
-1. **Database Model** - Add to `alita/db/`
-2. **Repository** - Implement in `alita/db/repositories/`
-3. **Handler** - Create in `alita/modules/`
+1. **Database Model** - Add to `shadow/db/`
+2. **Repository** - Implement in `shadow/db/repositories/`
+3. **Handler** - Create in `shadow/modules/`
 4. **Register** - Add to module's init function
 5. **Localize** - Add strings to `locales/`
 
@@ -651,9 +651,9 @@ for supply chain security. To verify:
 
 ```bash
 # Using GitHub CLI (gh)
-gh attestation verify alita_robot_*.tar.gz \
-  --owner divkix \
-  --repo Alita_Robot
+gh attestation verify shadow_*.tar.gz \
+  --owner kazerdira \
+  --repo shadow
 ```
 
 This verification ensures:
@@ -678,8 +678,8 @@ We welcome contributions! Here's how to get started:
 
 ```bash
 # Fork and clone
-git clone https://github.com/YOUR_USERNAME/Alita_Robot.git
-cd Alita_Robot
+git clone https://github.com/YOUR_USERNAME/shadow.git
+cd shadow
 
 # Create feature branch
 git checkout -b feature/amazing-feature
@@ -710,7 +710,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/):
 ### Need Help?
 
 - Join our [Support Group](https://t.me/DivideSupport)
-- Check [existing issues](https://github.com/divkix/Alita_Robot/issues)
+- Check [existing issues](https://github.com/kazerdira/shadow/issues)
 - Read the [CLAUDE.md](CLAUDE.md) for codebase details
 
 ## 🌟 Acknowledgments
@@ -733,7 +733,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 for details.
 
 ```
-Copyright (C) 2020-2026 Divkix
+Copyright (C) 2020-2026 kazerdira
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -746,11 +746,11 @@ furnished to do so, subject to the following conditions:
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://divkix.me">Divkix</a> and contributors
+  Made with ❤️ by <a href="https://kazerdira.me">kazerdira</a> and contributors
 </p>
 
 <p align="center">
-  <a href="https://t.me/Alita_Robot">Try Alita</a> •
+  <a href="https://t.me/shadow">Try shadow</a> •
   <a href="https://t.me/DivideSupport">Support Group</a> •
   <a href="https://t.me/DivideProjects">Updates Channel</a>
 </p>

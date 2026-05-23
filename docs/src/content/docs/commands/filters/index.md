@@ -6,7 +6,7 @@ description: Complete guide to Filters module commands and features
 
 # 🔍 Filters Commands
 
-Filters are case insensitive; every time someone says your trigger words, Alita will reply something else! This can be used to create your commands, if desired.
+Filters are case insensitive; every time someone says your trigger words, shadow will reply something else! This can be used to create your commands, if desired.
 
 Commands:
 - /filter <trigger> <reply>: Every time someone says trigger, the bot will reply with sentence. For multiple word filters, quote the trigger.

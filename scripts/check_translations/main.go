@@ -39,7 +39,7 @@ func main() {
 	fmt.Println()
 
 	// Step 1: Extract all translation keys from Go files
-	keys, err := extractTranslationKeys("../../alita")
+	keys, err := extractTranslationKeys("../../shadow")
 	if err != nil {
 		fmt.Printf("❌ Error extracting translation keys: %v\n", err)
 		os.Exit(1)
@@ -122,7 +122,7 @@ func extractTranslationKeys(rootDir string) ([]TranslationKey, error) {
 func extractKeysFromFile(filePath string) ([]TranslationKey, error) {
 	var keys []TranslationKey
 
-	// Resolve to absolute path to handle legitimate relative paths (e.g., ../../alita/...)
+	// Resolve to absolute path to handle legitimate relative paths (e.g., ../../shadow/...)
 	absPath, err := filepath.Abs(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("could not resolve path %s: %w", filePath, err)

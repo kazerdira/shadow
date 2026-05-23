@@ -6,12 +6,12 @@ description: Complete reference of permission checking functions
 
 # 🔐 Permission System
 
-This page documents all permission checking functions in Alita Robot.
+This page documents all permission checking functions in shadow Robot.
 
 ## Overview
 
 - **Total Functions**: 25
-- **Location**: `alita/utils/chat_status/chat_status.go`
+- **Location**: `shadow/utils/chat_status/chat_status.go`
 
 ## Function Summary
 

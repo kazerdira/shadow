@@ -1,7 +1,7 @@
 {
-  "name": "alita-robot",
+  "name": "shadow-robot",
   "description": "Telegram group management bot built with Go",
-  "repository": "https://github.com/divkix/Alita_Robot",
+  "repository": "https://github.com/kazerdira/shadow",
   "keywords": ["telegram", "bot", "go", "group-management"],
   "addons": [
     { "plan": "heroku-postgresql:essential-0" },

@@ -27,21 +27,22 @@ RUN --mount=type=cache,target=/go/pkg/mod \
     CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build \
     -trimpath \
     -ldflags="-s -w" \
-    -o alita_robot .
+    -o bot .
 
 # Stage 2: Minimal runtime image
 FROM gcr.io/distroless/static-debian12
 USER 65532:65532
 WORKDIR /app
-COPY --from=builder /app/alita_robot /app/alita_robot
+COPY --from=builder /app/bot /app/bot
 COPY --from=builder /app/migrations /app/migrations
 EXPOSE 8080
-ENTRYPOINT ["/app/alita_robot"]
+ENTRYPOINT ["/app/bot"]
 
 # Metadata
-LABEL org.opencontainers.image.authors="Divanshu Chauhan <divkix@divkix.me>"
-LABEL org.opencontainers.image.url="https://divkix.me"
-LABEL org.opencontainers.image.source="https://github.com/divkix/Alita_Robot"
-LABEL org.opencontainers.image.title="Alita Go Robot"
-LABEL org.opencontainers.image.description="Official Alita Go Robot Docker Image"
-LABEL org.opencontainers.image.vendor="Divkix"
+LABEL org.opencontainers.image.authors="Divanshu Chauhan <kazerdira@kazerdira.me>"
+LABEL org.opencontainers.image.url="https://kazerdira.me"
+LABEL org.opencontainers.image.source="https://github.com/kazerdira/shadow"
+LABEL org.opencontainers.image.title="shadow Go Robot"
+LABEL org.opencontainers.image.description="Official shadow Go Robot Docker Image"
+LABEL org.opencontainers.image.vendor="kazerdira"
+

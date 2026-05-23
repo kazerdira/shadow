@@ -1,6 +1,6 @@
-# Alita Robot Documentation
+# shadow Robot Documentation
 
-This is the documentation website for [Alita Robot](https://github.com/divkix/Alita_Robot), a modern Telegram group management bot built with Go.
+This is the documentation website for [shadow Robot](https://github.com/kazerdira/shadow), a modern Telegram group management bot built with Go.
 
 Built with [Starlight](https://starlight.astro.build/) on [Astro](https://astro.build/).
 
@@ -54,6 +54,6 @@ See the main [README](../README.md) for full contribution guidelines.
 
 ## Links
 
-- [Alita Robot Repository](https://github.com/divkix/Alita_Robot)
-- [Live Documentation](https://alita.divkix.me)
+- [shadow Robot Repository](https://github.com/kazerdira/shadow)
+- [Live Documentation](https://shadow.kazerdira.me)
 - [Support Group](https://t.me/DivideSupport)

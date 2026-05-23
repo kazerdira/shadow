@@ -1,7 +1,7 @@
 FROM gcr.io/distroless/static-debian12
 ARG TARGETPLATFORM
 WORKDIR /app
-COPY $TARGETPLATFORM/alita_robot /app/
+COPY $TARGETPLATFORM/shadow /app/
 COPY migrations /app/migrations
 EXPOSE 8080
-ENTRYPOINT ["/app/alita_robot"]
+ENTRYPOINT ["/app/shadow"]

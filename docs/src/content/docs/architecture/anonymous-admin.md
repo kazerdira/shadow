@@ -1,11 +1,11 @@
 ---
 title: Anonymous Admin Verification
-description: How Alita Robot handles admin commands sent via Telegram's anonymous admin mode.
+description: How shadow Robot handles admin commands sent via Telegram's anonymous admin mode.
 ---
 
 # Anonymous Admin Verification
 
-When a group admin enables "Send as Group" (anonymous admin mode), Telegram sends their messages as `GroupAnonymousBot` (ID `1087968824`). The bot cannot identify which admin sent the command. Alita Robot provides two modes to handle this: automatic trust (AnonAdmin ON) or keyboard verification (AnonAdmin OFF, the default).
+When a group admin enables "Send as Group" (anonymous admin mode), Telegram sends their messages as `GroupAnonymousBot` (ID `1087968824`). The bot cannot identify which admin sent the command. shadow Robot provides two modes to handle this: automatic trust (AnonAdmin ON) or keyboard verification (AnonAdmin OFF, the default).
 
 ## AnonAdmin Modes
 
@@ -33,7 +33,7 @@ The following sequence diagram shows the complete verification process for both 
 ```mermaid
 sequenceDiagram
     participant A as Anonymous Admin
-    participant B as Bot (Alita)
+    participant B as Bot (shadow)
     participant C as Redis Cache
     participant D as Any Chat Admin
 
@@ -63,8 +63,8 @@ sequenceDiagram
 
 ## Technical Details
 
-- **Cache key format:** `alita:anonAdmin:{chatId}:{msgId}` with 20-second TTL
-- **Callback data encoding:** Versioned codec format `anon_admin|v1|c={chatId}&m={msgId}` with legacy fallback `alita:anonAdmin:{chatId}:{msgId}` for backward compatibility
+- **Cache key format:** `shadow:anonAdmin:{chatId}:{msgId}` with 20-second TTL
+- **Callback data encoding:** Versioned codec format `anon_admin|v1|c={chatId}&m={msgId}` with legacy fallback `shadow:anonAdmin:{chatId}:{msgId}` for backward compatibility
 - **Command re-dispatch:** After verification, the bot sets `ctx.EffectiveMessage` to the original cached message, clears `SenderChat` (prevents re-triggering anonymous admin detection), clears `CallbackQuery`, extracts the command from message text, and dispatches to the appropriate handler via a switch statement
 - **Non-admin click handling:** Shows a toast notification ("Need to be admin") without error; does not consume the keyboard
 

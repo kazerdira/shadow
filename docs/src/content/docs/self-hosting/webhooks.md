@@ -1,11 +1,11 @@
 ---
 title: Webhook Configuration
-description: Configure webhooks for production deployments of Alita Robot.
+description: Configure webhooks for production deployments of shadow Robot.
 ---
 
 # Webhook Configuration
 
-Webhooks provide real-time message delivery from Telegram to your bot, making them ideal for production deployments. This guide covers the setup and configuration of webhooks for Alita Robot.
+Webhooks provide real-time message delivery from Telegram to your bot, making them ideal for production deployments. This guide covers the setup and configuration of webhooks for shadow Robot.
 
 ## Polling vs Webhooks
 
@@ -40,7 +40,7 @@ HTTP_PORT=8080
 
 ## Unified HTTP Server
 
-Alita Robot uses a single HTTP server for all endpoints:
+shadow Robot uses a single HTTP server for all endpoints:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -99,7 +99,7 @@ cloudflared tunnel login
 ### Step 3: Create a Tunnel
 
 ```bash
-cloudflared tunnel create alita-bot
+cloudflared tunnel create shadow-bot
 ```
 
 This creates a tunnel and outputs a tunnel ID.
@@ -107,7 +107,7 @@ This creates a tunnel and outputs a tunnel ID.
 ### Step 4: Configure DNS
 
 ```bash
-cloudflared tunnel route dns alita-bot bot.yourdomain.com
+cloudflared tunnel route dns shadow-bot bot.yourdomain.com
 ```
 
 ### Step 5: Create config.yml
@@ -126,7 +126,7 @@ ingress:
 
 ```bash
 # Run in foreground
-cloudflared tunnel run alita-bot
+cloudflared tunnel run shadow-bot
 
 # Or install as a service
 sudo cloudflared service install
@@ -158,7 +158,7 @@ services:
     restart: always
     command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
     depends_on:
-      - alita
+      - shadow
 ```
 
 ## Security Best Practices
@@ -174,7 +174,7 @@ openssl rand -hex 32
 
 ### 2. Validate Webhook Origin
 
-Alita automatically validates that requests come from Telegram by checking:
+shadow automatically validates that requests come from Telegram by checking:
 - The URL path contains your secret in the format `/webhook/{secret}`
 - The `X-Telegram-Bot-Api-Secret-Token` header matches your `WEBHOOK_SECRET`
 

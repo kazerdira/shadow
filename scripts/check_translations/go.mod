@@ -1,4 +1,4 @@
-module github.com/divkix/Alita_Robot/scripts/check_translations
+module github.com/kazerdira/shadow/scripts/check_translations
 
 go 1.21
 

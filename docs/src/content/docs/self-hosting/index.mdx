@@ -1,13 +1,13 @@
 ---
 title: Self-Hosting Overview
-description: Host your own instance of Alita Robot.
+description: Host your own instance of shadow Robot.
 ---
 
 import { Badge, Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-# Self-Hosting Alita Robot
+# Self-Hosting shadow Robot
 
-This guide covers everything you need to deploy your own instance of Alita Robot.
+This guide covers everything you need to deploy your own instance of shadow Robot.
 
 ## Prerequisites
 
@@ -30,11 +30,11 @@ Docker Compose is the fastest way to get started. It bundles PostgreSQL and Redi
 
 <CardGrid>
   <Card title="Docker Compose" icon="seti:docker">
-    <Badge text="Recommended" variant="success" /> The easiest way to deploy Alita. Includes PostgreSQL and Redis out of the box.
+    <Badge text="Recommended" variant="success" /> The easiest way to deploy shadow. Includes PostgreSQL and Redis out of the box.
 
     ```bash
-    git clone https://github.com/divkix/Alita_Robot.git
-    cd Alita_Robot
+    git clone https://github.com/kazerdira/shadow.git
+    cd shadow
     cp sample.env .env
     # Edit .env with your configuration
     docker-compose up -d
@@ -55,9 +55,9 @@ Docker Compose is the fastest way to get started. It bundles PostgreSQL and Redi
     Compile the bot yourself for development or customization:
 
     ```bash
-    git clone https://github.com/divkix/Alita_Robot.git
-    cd Alita_Robot
-    go build -o alita_robot .
+    git clone https://github.com/kazerdira/shadow.git
+    cd shadow
+    go build -o shadow .
     ```
 
     [Building from Source →](/self-hosting/source/)
@@ -89,7 +89,7 @@ REDIS_ADDRESS=localhost:6379
 
 ## Database Setup
 
-Alita uses PostgreSQL with automatic migrations:
+shadow uses PostgreSQL with automatic migrations:
 
 ```bash
 # Enable auto-migration

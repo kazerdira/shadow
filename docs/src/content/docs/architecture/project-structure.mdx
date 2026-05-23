@@ -1,11 +1,11 @@
 ---
 title: Project Structure
-description: Directory layout and key files in the Alita Robot codebase.
+description: Directory layout and key files in the shadow Robot codebase.
 ---
 
 import { Badge, FileTree } from '@astrojs/starlight/components';
 
-This document explains the directory structure of Alita Robot, helping developers navigate the codebase efficiently.
+This document explains the directory structure of shadow Robot, helping developers navigate the codebase efficiently.
 
 ## Directory Tree
 
@@ -17,7 +17,7 @@ This document explains the directory structure of Alita Robot, helping developer
 - go.mod Go module definition
 - go.sum Go dependency checksums
 - .goreleaser.yaml Release configuration
-- alita/ **Core application code**
+- shadow/ **Core application code**
   - main.go Module loader and initialization
   - config/
     - config.go Environment variable parsing
@@ -86,7 +86,7 @@ This document explains the directory structure of Alita Robot, helping developer
   - ...
 </FileTree>
 
-### `/alita/utils/chat_status/` - Permission Checking <Badge text="Security" variant="caution" />
+### `/shadow/utils/chat_status/` - Permission Checking <Badge text="Security" variant="caution" />
 
 Central permission validation:
 
@@ -151,7 +151,7 @@ Application entry point handling:
 - Graceful shutdown coordination
 - Webhook/polling mode selection
 
-### `alita/main.go`
+### `shadow/main.go`
 
 Module loading and initialization:
 - `LoadModules()` - Loads all feature modules in order
@@ -159,14 +159,14 @@ Module loading and initialization:
 - `InitialChecks()` - Validates configuration and performs startup health checks
 - `ResourceMonitor()` - Background resource tracking
 
-### `alita/config/config.go`
+### `shadow/config/config.go`
 
 Environment variable parsing:
 - Required: `BOT_TOKEN`, `DATABASE_URL`, `REDIS_ADDRESS`
 - Optional: Performance tuning, monitoring, webhooks
 - Validation and default values
 
-### `alita/db/db.go`
+### `shadow/db/db.go`
 
 Database connection management:
 - GORM configuration with connection pooling
@@ -176,7 +176,7 @@ Database connection management:
 
 ## Module Loading Order
 
-Modules are loaded in a specific order in `alita/main.go`:
+Modules are loaded in a specific order in `shadow/main.go`:
 
 ```go
 func LoadModules(dispatcher *ext.Dispatcher) {

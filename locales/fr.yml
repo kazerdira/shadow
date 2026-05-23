@@ -1,4 +1,4 @@
-# French locale for Alita Robot
+# French locale for shadow Robot
 # Language metadata
 lang_sample: Bonjour, je suis un bot de gestion de groupe
 language_flag: 🇫🇷
@@ -682,7 +682,7 @@ greetings_clean_service_not: "Je ne supprime actuellement pas les messages de re
 # Filters module strings
 filters_help_msg: |
   Les filtres ne sont pas sensibles à la casse ; chaque fois que quelqu'un dit vos mots
-  déclencheurs, Alita répondra autre chose ! Cela peut être utilisé pour créer vos propres commandes,
+  déclencheurs, shadow répondra autre chose ! Cela peut être utilisé pour créer vos propres commandes,
   si désiré.
 
 
@@ -1134,14 +1134,14 @@ extraction_invalid_time_format: "Format de temps invalide spécifié."
 help_about: "@%s est l'un des gestionnaires de groupe les plus rapides et les plus complets.
 
 
-  Alita ✨ est développé et activement maintenu par @DivideProjects !
+  shadow ✨ est développé et activement maintenu par @DivideProjects !
 
 
-  Alita est en ligne depuis 2020 et a servi des milliers de groupes avec des centaines
+  shadow est en ligne depuis 2020 et a servi des milliers de groupes avec des centaines
   de milliers d'utilisateurs !
 
 
-  <b>Pourquoi Alita :</b>
+  <b>Pourquoi shadow :</b>
 
   - Simple : Utilisation facile et compatible avec de nombreuses commandes de bot.
 
@@ -1152,10 +1152,10 @@ help_about: "@%s est l'un des gestionnaires de groupe les plus rapides et les pl
 
 
   <b>Version actuelle :</b> %s"
-help_configuration_step-1: "Bienvenue dans la configuration d'Alita
+help_configuration_step-1: "Bienvenue dans la configuration d'shadow
 
 
-  La première chose à faire est d'ajouter Alita ✨ à votre groupe ! Pour ce faire, appuyez sur le
+  La première chose à faire est d'ajouter shadow ✨ à votre groupe ! Pour ce faire, appuyez sur le
   bouton ci-dessous et sélectionnez votre groupe, puis appuyez sur Terminé pour continuer le tutoriel."
 help_configuration_step-2: "Ok, bien joué !
 
@@ -1188,7 +1188,7 @@ help_configuration_step-3: "Excellent !
 
 
   Si vous rencontrez des difficultés pour me configurer dans votre groupe, n'hésitez pas
-  à venir sur @DivideSupport.
+  à venir sur @KazerDira.
 
   Nous serons ravis de vous aider."
 help_donatetext: "Vous voulez faire un don ? Incroyable !
@@ -1204,8 +1204,8 @@ help_donatetext: "Vous voulez faire un don ? Incroyable !
   Vous pouvez faire un don en contactant mon propriétaire ici : @DivideProjectsBot"
 help_pm_questions: "Salut :) Envoyez-moi un MP si vous avez des questions sur mon utilisation !"
 help_config_private_only: La configuration ne fonctionne qu'en privé
-help_info_about_header: "Info & À propos\n\nVoici quelques FAQ sur Alita."
-help_news_channel_text: "Rejoignez mon <a href='https://t.me/AlitaRobotUpdates'>canal d'actualités</a> pour obtenir des informations sur toutes les dernières mises à jour."
+help_info_about_header: "Info & À propos\n\nVoici quelques FAQ sur shadow."
+help_news_channel_text: "Rejoignez mon <a href='https://t.me/Sanctuaria'>canal d'actualités</a> pour obtenir des informations sur toutes les dernières mises à jour."
 help_all_commands_usage: "Toutes les commandes peuvent être utilisées avec : / ou !"
 help_button_about_me: "À propos de moi 👨‍💻"
 help_button_news_channel: "Canal d'actualités 📢"
@@ -1213,7 +1213,7 @@ help_button_support_group: "Groupe de support 👥"
 help_button_configuration: "Configuration ⚙️"
 help_button_about: "À propos ✨"
 help_button_add_to_chat: "➕ Ajoute-moi au chat !"
-help_button_add_alita: "➕ Ajouter Alita au chat !"
+help_button_add_shadow: "➕ Ajouter shadow au chat !"
 help_button_commands_help: "📚 Commandes & Aide"
 help_button_language: "Langue 🌏"
 help_click_button_info: "Cliquez sur le bouton ci-dessous pour obtenir des infos sur moi !"
@@ -1223,10 +1223,10 @@ help_markdown_help_button: "Aide Markdown"
 help_markdown_formatting_button: "Formatage Markdown"
 help_fillings_button: "Remplissages"
 help_random_content_button: "Contenu aléatoire"
-help_bot_intro: "Salut ! Je m'appelle Alita ✨.\nJe suis là pour vous aider à gérer vos groupes !\nTapez /help pour en savoir plus sur comment m'utiliser au maximum.\n"
+help_bot_intro: "Salut ! Je m'appelle shadow ✨.\nJe suis là pour vous aider à gérer vos groupes !\nTapez /help pour en savoir plus sur comment m'utiliser au maximum.\n"
 help_pm_intro: |
   Salut %s !
-  Je m'appelle Alita ✨.
+  Je m'appelle shadow ✨.
 
   Je suis un bot de gestion de groupe, là pour vous aider à naviguer et maintenir l'ordre dans vos groupes !
   J'ai plein de fonctionnalités pratiques, comme le contrôle du flood, un système d'avertissements, un système de notes, et même des réponses prédéfinies sur certains mots-clés.
@@ -1236,7 +1236,7 @@ help_pm_intro: |
   - /help : Envoie ce message ; je vous en dirai plus sur moi-même !
   - /donate : Vous donne des infos sur comment me soutenir ainsi que mon créateur.
 
-  Si vous avez des bugs ou des questions sur comment m'utiliser, consultez mon site web, ou rendez-vous sur @DivideSupport.
+  Si vous avez des bugs ou des questions sur comment m'utiliser, consultez mon site web, ou rendez-vous sur @KazerDira.
   Toutes les commandes peuvent être utilisées avec / ou !.
 
 # Misc module strings
@@ -1543,11 +1543,11 @@ math_operator_multiply: "×"
 
 # Formatting module additional strings
 formatting_press_button: "Appuyez sur le bouton ci-dessous pour obtenir l'aide Markdown !"
-formatting_large_options: "Alita supporte un grand nombre d'options de formatage pour rendre vos messages plus expressifs. Jetez un œil !"
+formatting_large_options: "shadow supporte un grand nombre d'options de formatage pour rendre vos messages plus expressifs. Jetez un œil !"
 
 # Languages help module strings
 help_help_msg:
-  "Le point d'entrée principal et le système de navigation d'Alita Robot.
+  "Le point d'entrée principal et le système de navigation d'shadow Robot.
 
   *Commandes de navigation:*
 
@@ -1567,7 +1567,7 @@ languages_help_msg: "Vous n'arrivez pas à changer la langue du bot ?
   groupe.
 
 
-  Vous pouvez nous aider à apporter le bot dans plus de langues en contribuant sur [Crowdin](https://crowdin.com/project/alita_robot)"
+  Vous pouvez nous aider à apporter le bot dans plus de langues en contribuant sur [Crowdin](https://crowdin.com/project/shadow)"
 
 # Antiflood module help message
 antiflood_help_msg: |
@@ -2009,7 +2009,7 @@ users_extended_docs: |
   • D'autres modules, comme <code>/info</code>, dépendent des données collectées par ce module
 
 # Formatting module help message
-formatting_help_msg: "Alita supporte un grand nombre d'options de formatage pour rendre vos messages plus expressifs. Jetez un œil en cliquant sur les boutons ci-dessous !"
+formatting_help_msg: "shadow supporte un grand nombre d'options de formatage pour rendre vos messages plus expressifs. Jetez un œil en cliquant sur les boutons ci-dessous !"
 
 # Formatting module - Markdown documentation
 formatting_markdown: |
@@ -2071,7 +2071,7 @@ formatting_random: |
   Cela choisira aléatoirement entre envoyer le premier message, "bonjour", ou le second
   message, "comment ça va".
 
-  Utilisez ceci pour rendre Alita un peu plus personnalisé ! (fonctionne uniquement dans les filtres/notes)
+  Utilisez ceci pour rendre shadow un peu plus personnalisé ! (fonctionne uniquement dans les filtres/notes)
 
   Exemple de message de bienvenue :
 
@@ -2438,3 +2438,4 @@ antiraid_invalid_threshold: "Seuil invalide. Donnez un nombre positif ou 'off'."
 antiraid_auto_triggered: "Raid auto déclenché ! %s utilisateurs ont rejoint/min — nouveaux joiners bannis temporairement."
 antiraid_btn_enable: "Activer AntiRaid"
 antiraid_btn_disable: "Désactiver AntiRaid"
+

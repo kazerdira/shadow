@@ -1,12 +1,12 @@
 # Repository Guidelines
 
-Alita Robot is a Telegram group management bot built with Go 1.25+ and the
+shadow Robot is a Telegram group management bot built with Go 1.25+ and the
 gotgbot library. Features include user management, filters, greetings,
 anti-spam, captcha verification, and multi-language support (en, es, fr, hi).
 
 ## Project Structure & Module Organization
 
-- **`alita/`** - Core application code
+- **`shadow/`** - Core application code
   - `config/` - Configuration management
   - `db/` - Database models, operations, and caching (PostgreSQL + GORM)
   - `i18n/` - Internationalization with embedded YAML locales
@@ -32,8 +32,8 @@ make vendor             # go mod vendor
 
 # Single test execution patterns:
 go test -v -run TestFunctionName ./package       # Run specific test
-go test -v -run "^TestXxx$" ./alita/db          # Run tests matching pattern
-go test -v -count=1 -timeout 10m ./alita/db      # Run all tests in package
+go test -v -run "^TestXxx$" ./shadow/db          # Run tests matching pattern
+go test -v -count=1 -timeout 10m ./shadow/db      # Run all tests in package
 
 # Translations & docs
 make check-translations # Detect missing translation keys across locales
@@ -64,8 +64,8 @@ import (
     log "github.com/sirupsen/logrus"
     "gorm.io/gorm"
 
-    "github.com/divkix/Alita_Robot/alita/db"
-    "github.com/divkix/Alita_Robot/alita/i18n"
+    "github.com/kazerdira/shadow/shadow/db"
+    "github.com/kazerdira/shadow/shadow/i18n"
 )
 ```
 
@@ -102,13 +102,13 @@ import (
 
 ### Database & Cache
 - **Cache invalidation on writes**: every update must invalidate corresponding cache key
-- Key format: `alita:{module}:{identifier}` (e.g., `alita:adminCache:123`)
+- Key format: `shadow:{module}:{identifier}` (e.g., `shadow:adminCache:123`)
 - Use `singleflight` protection for cache stampede prevention
-- Operations: Use `cache.GetMarshal().Get/Set/Delete` for direct cache access; use `getFromCacheOrLoad()` in `alita/db/cache_helpers.go` for DB-backed cached reads
+- Operations: Use `cache.GetMarshal().Get/Set/Delete` for direct cache access; use `getFromCacheOrLoad()` in `shadow/db/cache_helpers.go` for DB-backed cached reads
 
 ### Module System
 - Create `LoadXxx(dispatcher)` function per module
-- Register in `alita/main.go:LoadModules()` — load order matters
+- Register in `shadow/main.go:LoadModules()` — load order matters
 - Help module loads last to collect all registered modules
 - Add translation keys to ALL locale files in `locales/`
 
@@ -131,7 +131,7 @@ import (
 
 **Patterns:**
 - Use table-driven tests for multiple scenarios
-- Database tests use test fixtures in `alita/db/testmain_test.go`
+- Database tests use test fixtures in `shadow/db/testmain_test.go`
 - Race detection enabled by default in test suite
 
 ## Architecture Overview
@@ -149,17 +149,17 @@ import (
 9. Graceful shutdown manager (LIFO handler execution, 60s timeout)
 10. Unified HTTP server (health + metrics + pprof + webhook on single port)
 11. Mode selection: webhook or polling
-12. Module loading via `alita.LoadModules(dispatcher)`
+12. Module loading via `shadow.LoadModules(dispatcher)`
 
 ### Module System
 
-Modules live in `alita/modules/`. Most modules expose a `LoadXxx(dispatcher)`
-function called explicitly from `alita/main.go:LoadModules()`. Note:
+Modules live in `shadow/modules/`. Most modules expose a `LoadXxx(dispatcher)`
+function called explicitly from `shadow/main.go:LoadModules()`. Note:
 `antiflood` and `antispam` modules also use Go `init()` functions for
 background goroutine startup. Load order matters; help module loads last to
 collect all registered modules.
 
-**Non-module files in `alita/modules/`:** `helpers.go` (defines `moduleStruct`,
+**Non-module files in `shadow/modules/`:** `helpers.go` (defines `moduleStruct`,
 shared help utilities), `moderation_input.go` (text extraction for
 filters/blacklists), `callback_codec.go` and `callback_parse_overwrite.go`
 (callback data encoding), `chat_permissions.go` (permission helpers),
@@ -183,10 +183,10 @@ formatting for rules).
   (`map[string][][]gotgbot.InlineKeyboardButton`)
 
 **Adding a new module:**
-1. Create DB operations in `alita/db/*_db.go`
-2. Implement handlers in `alita/modules/your_module.go`
+1. Create DB operations in `shadow/db/*_db.go`
+2. Implement handlers in `shadow/modules/your_module.go`
 3. Create `LoadYourModule(dispatcher)` function
-4. Call it from `LoadModules()` in `alita/main.go`
+4. Call it from `LoadModules()` in `shadow/main.go`
 5. Add translation keys to ALL locale files in `locales/`
 
 ### Database Layer
@@ -197,26 +197,26 @@ formatting for rules).
 IDs (`user_id`, `chat_id`) have unique constraints but aren't primary keys.
 
 **File organization:**
-- `alita/db/db.go` — GORM models, connection setup, pool config
-- `alita/db/*_db.go` — Domain-specific operations (`Get*`, `Add*`, `Update*`, `Delete*`)
-- `alita/db/cache_helpers.go` — TTL management, cache invalidation
-- `alita/db/optimized_queries.go` — Optimized SELECT queries with minimal column selection, singleflight-protected caching via `getFromCacheOrLoad`, thread-safe singleton query instances
-- `alita/db/migrations.go` — Runtime migration engine
+- `shadow/db/db.go` — GORM models, connection setup, pool config
+- `shadow/db/*_db.go` — Domain-specific operations (`Get*`, `Add*`, `Update*`, `Delete*`)
+- `shadow/db/cache_helpers.go` — TTL management, cache invalidation
+- `shadow/db/optimized_queries.go` — Optimized SELECT queries with minimal column selection, singleflight-protected caching via `getFromCacheOrLoad`, thread-safe singleton query instances
+- `shadow/db/migrations.go` — Runtime migration engine
 - `migrations/*.sql` — Source of truth for schema (timestamped filenames)
 
 ### Cache Layer
 
 Redis-only via gocache library. Stampede protection via `singleflight` in the
-DB caching layer (`alita/db/cache_helpers.go`).
+DB caching layer (`shadow/db/cache_helpers.go`).
 
-- Key format: `alita:{module}:{identifier}` (e.g., `alita:adminCache:123`)
+- Key format: `shadow:{module}:{identifier}` (e.g., `shadow:adminCache:123`)
 - Operations: `cache.GetMarshal().Get/Set/Delete` with context (mutex-protected; do not bypass accessors)
 - `ClearAllCaches()` — FLUSHDB on startup when `ClearCacheOnStartup` is configured
-- Admin cache specialized in `alita/utils/cache/adminCache.go`
+- Admin cache specialized in `shadow/utils/cache/adminCache.go`
 - **Cache must be invalidated on writes** — every DB update function that
   modifies cached data must call the corresponding invalidation
 
-### Permission System (`alita/utils/chat_status/`)
+### Permission System (`shadow/utils/chat_status/`)
 
 - `RequireGroup()` / `RequirePrivate()` — chat type guards
 - `RequireBotAdmin()` / `RequireUserAdmin()` / `RequireUserOwner()` — permission guards (send error messages on failure)
@@ -229,7 +229,7 @@ DB caching layer (`alita/db/cache_helpers.go`).
 - Anonymous admin detection with keyboard fallback
 - Results cached to reduce Telegram API calls
 
-### Internationalization (`alita/i18n/`)
+### Internationalization (`shadow/i18n/`)
 
 Singleton `LocaleManager` with per-language `Translator` instances. YAML locale
 files embedded via `go:embed`. Supports named parameters in code
@@ -241,14 +241,14 @@ Four-layer recovery: dispatcher → worker pool → decorator → handler. The
 `error_handling` package provides `RecoverFromPanic()` and `SetOnErrorCallback()`.
 Expected Telegram API errors (bot not admin, chat closed) are filtered via
 `helpers.IsExpectedTelegramError()`. Custom error wrapping with file/line/function
-metadata via `alita/utils/errors/` (`Wrap()`/`Wrapf()` using `runtime.Caller`).
+metadata via `shadow/utils/errors/` (`Wrap()`/`Wrapf()` using `runtime.Caller`).
 
-### Graceful Shutdown (`alita/utils/shutdown/`)
+### Graceful Shutdown (`shadow/utils/shutdown/`)
 
 Central coordinator. Handlers registered during setup, executed in LIFO order
 on shutdown. Each handler gets panic recovery. Total timeout: 60 seconds.
 
-### Monitoring (`alita/utils/monitoring/`)
+### Monitoring (`shadow/utils/monitoring/`)
 
 - **Activity monitor**: Tracks `last_activity` per chat AND per user (daily/weekly/monthly active users), marks inactive after threshold
 - **Auto-remediation**: 4-tier system — warning logs at 80% threshold, GC trigger at 60% memory, aggressive memory cleanup (multiple GC cycles), restart recommendation at 150%+ threshold
@@ -256,15 +256,15 @@ on shutdown. Each handler gets panic recovery. Total timeout: 60 seconds.
 
 ### Additional Utility Packages
 
-- `alita/utils/extraction/` — extracts user IDs, chat IDs, time durations from Telegram messages
-- `alita/utils/keyword_matcher/` — Aho-Corasick multi-pattern matching with per-chat caching (used by filters/blacklists)
-- `alita/utils/media/` — unified media send interface for notes/filters/greetings
-- `alita/utils/tracing/` — OpenTelemetry distributed tracing with OTLP/console exporters, includes cache key sanitization helpers
-- `alita/utils/httpserver/` — unified HTTP server (health + metrics + pprof + webhook)
-- `alita/utils/async/` — async processing with enable flag
-- `alita/utils/constants/` — centralized time/duration constants (cache TTLs, timeouts, intervals)
-- `alita/utils/callbackcodec/` — versioned callback data encoding/decoding
-- `alita/utils/helpers/decorators.go` — command decorators: MultiCommand (aliases) and AddCmdToDisableable
+- `shadow/utils/extraction/` — extracts user IDs, chat IDs, time durations from Telegram messages
+- `shadow/utils/keyword_matcher/` — Aho-Corasick multi-pattern matching with per-chat caching (used by filters/blacklists)
+- `shadow/utils/media/` — unified media send interface for notes/filters/greetings
+- `shadow/utils/tracing/` — OpenTelemetry distributed tracing with OTLP/console exporters, includes cache key sanitization helpers
+- `shadow/utils/httpserver/` — unified HTTP server (health + metrics + pprof + webhook)
+- `shadow/utils/async/` — async processing with enable flag
+- `shadow/utils/constants/` — centralized time/duration constants (cache TTLs, timeouts, intervals)
+- `shadow/utils/callbackcodec/` — versioned callback data encoding/decoding
+- `shadow/utils/helpers/decorators.go` — command decorators: MultiCommand (aliases) and AddCmdToDisableable
 
 ## Commit & Pull Request Guidelines
 
@@ -312,7 +312,7 @@ These are hard-won patterns from past bugs. Violating them causes real issues.
 ### Handler Patterns
 - **Handler groups**: Negative numbers (e.g., -1) for early interception, positive numbers (4-10) for message watchers/monitors. Default group (0) for standard command handlers
 - **Return values**: `ext.EndGroups` stops propagation, `ext.ContinueGroups` continues
-- **Callback data**: Use versioned codec (`alita/utils/callbackcodec/`): `Encode(namespace, fields)` produces `<namespace>|v1|<url-encoded fields>`. Use `Decode(data)` to parse. Legacy dot-notation fallback exists for backward compatibility. Avoid raw `strings.Split(data, ".")` — use the codec
+- **Callback data**: Use versioned codec (`shadow/utils/callbackcodec/`): `Encode(namespace, fields)` produces `<namespace>|v1|<url-encoded fields>`. Use `Decode(data)` to parse. Legacy dot-notation fallback exists for backward compatibility. Avoid raw `strings.Split(data, ".")` — use the codec
 - **Double-answer bug**: `RequireUserAdmin` with `justCheck=false` already answers the callback — don't answer again
 - **`IsUserConnected()`**: After calling, use the returned `connectedChat` value for the effective chat
 - **Entity completeness**: Check both `msg.Entities` AND `msg.CaptionEntities` for URL/mention detection
@@ -363,7 +363,7 @@ See `sample.env` for all variables. Critical ones:
 
 Docker: Multi-stage build → distroless image. Health check via `--health` flag.
 CI/CD: GitHub Actions with gosec, govulncheck, golangci-lint, multi-arch Docker.
-Releases: GoReleaser to `ghcr.io/divkix/alita_robot`.
+Releases: GoReleaser to `ghcr.io/kazerdira/shadow`.
 
 ## Security Best Practices
 

@@ -6,7 +6,7 @@ description: Configuration reference for all environment variables
 
 # ⚙️ Environment Variables
 
-This page documents all environment variables used to configure Alita Robot.
+This page documents all environment variables used to configure shadow Robot.
 
 ## 📂 Activity monitoring configuration
 

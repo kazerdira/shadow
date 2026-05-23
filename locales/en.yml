@@ -436,7 +436,7 @@ devs_help_msg:
   × /leavechat: Force the bot to leave a specified chat."
 filters_help_msg:
   "Filters are case insensitive; every time someone says your trigger
-  words, Alita will reply something else! This can be used to create your commands,
+  words, shadow will reply something else! This can be used to create your commands,
   if desired.
 
 
@@ -503,7 +503,7 @@ formatting_fillings: "<b>Fillings</b>
   - <code>{preview}</code>: Enables previews in the messages.
 
   - <code>{nonotif}</code>: Disables the notification for that message."
-formatting_help_msg: "Alita supports a large number of formatting options to make your messages more expressive. Take a look by clicking the buttons below!"
+formatting_help_msg: "shadow supports a large number of formatting options to make your messages more expressive. Take a look by clicking the buttons below!"
 formatting_markdown: |
   <b>Markdown Formatting</b>
 
@@ -562,7 +562,7 @@ formatting_random: |
   This will randomly choose between sending the first message, "hello", or the second
   message, "how are you".
 
-  Use this to make Alita feel a bit more customised! (only works in filters/notes)
+  Use this to make shadow feel a bit more customised! (only works in filters/notes)
 
   Example welcome message:
 
@@ -609,14 +609,14 @@ greetings_help_msg:
 help_about: "@%s  is one of the fastest and most feature-filled group managers.
 
 
-  Alita ✨ is developed and actively maintained by @DivideProjects!
+  shadow ✨ is developed and actively maintained by @DivideProjects!
 
 
-  Alita has been online since 2020 and has served thousands of groups with hundreds
+  shadow has been online since 2020 and has served thousands of groups with hundreds
   of thousands of users!
 
 
-  <b>Why Alita:</b>
+  <b>Why shadow:</b>
 
   - Simple: Easy usage and compatible with many bot commands.
 
@@ -627,10 +627,10 @@ help_about: "@%s  is one of the fastest and most feature-filled group managers.
 
 
   <b>Current Version:</b> %s"
-help_configuration_step-1: "Welcome to the Alita Configuration
+help_configuration_step-1: "Welcome to the shadow Configuration
 
 
-  The first thing to do is to add Alita ✨ to your group! For doing that, press the
+  The first thing to do is to add shadow ✨ to your group! For doing that, press the
   under button and select your group, then press Done to continue the tutorial."
 help_configuration_step-2: "Ok, well done!
 
@@ -663,7 +663,7 @@ help_configuration_step-3: "Excellent!
 
 
   If you're facing any difficulties in setting up me in your group, so don't hesitate
-  to come in @DivideSupport.
+  to come in @KazerDira.
 
   We would love to help you."
 help_donatetext: "So you want to donate? Amazing!
@@ -681,7 +681,7 @@ lang_sample: US English
 language_flag: 🇺🇸
 language_name: English
 help_help_msg:
-  "The main entry point and navigation system for Alita Robot.
+  "The main entry point and navigation system for shadow Robot.
 
   *Navigation Commands:*
 
@@ -701,7 +701,7 @@ languages_help_msg: "Not able to change language of the bot?
   group.
 
 
-  You can help us bring bot to more languages by helping on [Crowdin](https://crowdin.com/project/alita_robot)"
+  You can help us bring bot to more languages by helping on [Crowdin](https://crowdin.com/project/shadow)"
 locks_help_msg: "*Admin only*:
 
   × /lock `<permission>`: Lock Chat permission..
@@ -1528,8 +1528,8 @@ main_bot_command_start: "Starts the Bot"
 main_bot_command_help: "Check Help section of bot"
 
 # Help module strings
-help_info_about_header: "Info & About\n\nHere are some of the FAQs about Alita."
-help_news_channel_text: "Join my <a href='https://t.me/AlitaRobotUpdates'>News Channel</a> to get information on all the latest updates."
+help_info_about_header: "Info & About\n\nHere are some of the FAQs about shadow."
+help_news_channel_text: "Join my <a href='https://t.me/Sanctuaria'>News Channel</a> to get information on all the latest updates."
 help_all_commands_usage: "All commands can be used with the following: / or !"
 help_button_about_me: "About me 👨‍💻"
 help_button_news_channel: "News Channel 📢"
@@ -1537,7 +1537,7 @@ help_button_support_group: "Support Group 👥"
 help_button_configuration: "Configuration ⚙️"
 help_button_about: "About ✨"
 help_button_add_to_chat: "➕ Add me to chat!"
-help_button_add_alita: "➕ Add Alita to chat!"
+help_button_add_shadow: "➕ Add shadow to chat!"
 help_button_commands_help: "📚 Commands & Help"
 help_button_language: "Language 🌏"
 help_click_button_info: "Click on the button below to get info about me!"
@@ -1709,13 +1709,13 @@ bot_updates_button_expired: "This button has expired, Please use the command aga
 
 # Formatting module additional strings
 formatting_press_button: "Press the button below to get Markdown Help!"
-formatting_large_options: "Alita supports a large number of formatting options to make your messages more expressive. Take a look!"
+formatting_large_options: "shadow supports a large number of formatting options to make your messages more expressive. Take a look!"
 
 # Help module additional strings
-help_bot_intro: "Hey there! My name is Alita ✨.\nI'm here to help you manage your groups!\nHit /help to find out more about how to use me to my full potential.\n"
+help_bot_intro: "Hey there! My name is shadow ✨.\nI'm here to help you manage your groups!\nHit /help to find out more about how to use me to my full potential.\n"
 help_pm_intro: |
   Hey %s!
-  My name is Alita ✨.
+  My name is shadow ✨.
 
   I am a group management bot, here to help you get around and keep the order in your groups!
   I have lots of handy features, such as flood control, a warning system, a note keeping system, and even predetermined replies on certain keywords.
@@ -1725,7 +1725,7 @@ help_pm_intro: |
   - /help: Sends this message; I'll tell you more about myself!
   - /donate: Gives you info on how to support me and my creator.
 
-  If you have any bugs or questions on how to use me, have a look at my website, or head to @DivideSupport.
+  If you have any bugs or questions on how to use me, have a look at my website, or head to @KazerDira.
   All commands can be used with / or !.
 
 # Captcha module additional strings
@@ -2545,3 +2545,4 @@ antiraid_invalid_threshold: "Invalid threshold. Give a positive number or 'off'.
 antiraid_auto_triggered: "Auto-raid triggered! %s users joined/min — new joiners temp-banned."
 antiraid_btn_enable: "Enable AntiRaid"
 antiraid_btn_disable: "Disable AntiRaid"
+

@@ -394,7 +394,7 @@ devs_help_msg:
   × /leavechat: Paksa bot untuk meninggalkan chat yang ditentukan."
 filters_help_msg: |
   "Filter tidak peka huruf besar/kecil; setiap kali seseorang mengucapkan kata pemicu
-  Anda, Alita akan membalas sesuatu yang lain! Ini dapat digunakan untuk membuat perintah Anda
+  Anda, shadow akan membalas sesuatu yang lain! Ini dapat digunakan untuk membuat perintah Anda
   sendiri, jika diinginkan.
 
 
@@ -461,7 +461,7 @@ formatting_fillings: "<b>Isian</b>
   - <code>{preview}</code>: Mengaktifkan pratinjau di pesan.
 
   - <code>{nonotif}</code>: Menonaktifkan notifikasi untuk pesan itu."
-formatting_help_msg: "Alita mendukung banyak opsi pemformatan untuk membuat pesan Anda lebih ekspresif. Lihat dengan mengklik tombol di bawah!"
+formatting_help_msg: "shadow mendukung banyak opsi pemformatan untuk membuat pesan Anda lebih ekspresif. Lihat dengan mengklik tombol di bawah!"
 formatting_markdown: |
   <b>Pemformatan Markdown</b>
 
@@ -520,7 +520,7 @@ formatting_random: |
   Ini akan secara acak memilih antara mengirim pesan pertama, "halo", atau pesan kedua,
   "apa kabar".
 
-  Gunakan ini untuk membuat Alita terasa sedikit lebih disesuaikan! (hanya berfungsi di filter/catatan)
+  Gunakan ini untuk membuat shadow terasa sedikit lebih disesuaikan! (hanya berfungsi di filter/catatan)
 
   Contoh pesan selamat datang:
 
@@ -567,14 +567,14 @@ greetings_help_msg: |
 help_about: "@%s  adalah salah satu manajer grup tercepat dan paling penuh fitur.
 
 
-  Alita ✨ dikembangkan dan dikelola secara aktif oleh @DivideProjects!
+  shadow ✨ dikembangkan dan dikelola secara aktif oleh @DivideProjects!
 
 
-  Alita telah online sejak 2020 dan telah melayani ribuan grup dengan ratusan
+  shadow telah online sejak 2020 dan telah melayani ribuan grup dengan ratusan
   ribu pengguna!
 
 
-  <b>Mengapa Alita:</b>
+  <b>Mengapa shadow:</b>
 
   - Sederhana: Penggunaan mudah dan kompatibel dengan banyak perintah bot.
 
@@ -585,10 +585,10 @@ help_about: "@%s  adalah salah satu manajer grup tercepat dan paling penuh fitur
 
 
   <b>Versi Saat Ini:</b> %s"
-help_configuration_step-1: "Selamat datang di Konfigurasi Alita
+help_configuration_step-1: "Selamat datang di Konfigurasi shadow
 
 
-  Hal pertama yang harus dilakukan adalah menambahkan Alita ✨ ke grup Anda! Untuk melakukan itu, tekan
+  Hal pertama yang harus dilakukan adalah menambahkan shadow ✨ ke grup Anda! Untuk melakukan itu, tekan
   tombol di bawah dan pilih grup Anda, lalu tekan Selesai untuk melanjutkan tutorial."
 help_configuration_step-2: "Ok, bagus!
 
@@ -621,7 +621,7 @@ help_configuration_step-3: "Sangat bagus!
 
 
   Jika Anda menghadapi kesulitan dalam menyiapkan saya di grup Anda, jangan ragu
-  untuk datang ke @DivideSupport.
+  untuk datang ke @KazerDira.
 
   Kami akan dengan senang hati membantu Anda."
 help_donatetext: "Jadi Anda ingin donasi? Luar biasa!
@@ -636,7 +636,7 @@ help_donatetext: "Jadi Anda ingin donasi? Luar biasa!
 
   Anda dapat berdonasi dengan menghubungi pemilik saya di sini: @DivideProjectsBot"
 help_help_msg:
-  "Titik masuk utama dan sistem navigasi untuk Alita Robot.
+  "Titik masuk utama dan sistem navigasi untuk shadow Robot.
 
   *Perintah Navigasi:*
 
@@ -655,7 +655,7 @@ languages_help_msg: "Tidak dapat mengubah bahasa bot?
   Ketik saja /lang dan gunakan keyboard inline untuk memilih bahasa untuk diri Anda sendiri atau grup Anda.
 
 
-  Anda dapat membantu kami membawa bot ke lebih banyak bahasa dengan membantu di [Crowdin](https://crowdin.com/project/alita_robot)"
+  Anda dapat membantu kami membawa bot ke lebih banyak bahasa dengan membantu di [Crowdin](https://crowdin.com/project/shadow)"
 locks_help_msg: "*Admin saja*:
 
   × /lock `<permission>`: Kunci Izin Obrolan..
@@ -1477,8 +1477,8 @@ main_bot_command_start: "Memulai Bot"
 main_bot_command_help: "Periksa Bagian Bantuan bot"
 
 # Help module strings
-help_info_about_header: "Info & Tentang\n\nBerikut adalah beberapa FAQ tentang Alita."
-help_news_channel_text: "Bergabunglah dengan <a href='https://t.me/AlitaRobotUpdates'>Kanal Berita</a> saya untuk mendapatkan informasi tentang semua pembaruan terbaru."
+help_info_about_header: "Info & Tentang\n\nBerikut adalah beberapa FAQ tentang shadow."
+help_news_channel_text: "Bergabunglah dengan <a href='https://t.me/Sanctuaria'>Kanal Berita</a> saya untuk mendapatkan informasi tentang semua pembaruan terbaru."
 help_all_commands_usage: "Semua perintah dapat digunakan dengan yang berikut: / atau !"
 help_button_about_me: "Tentang saya 👨‍💻"
 help_button_news_channel: "Kanal Berita 📢"
@@ -1486,7 +1486,7 @@ help_button_support_group: "Grup Dukungan 👥"
 help_button_configuration: "Konfigurasi ⚙️"
 help_button_about: "Tentang ✨"
 help_button_add_to_chat: "➕ Tambahkan saya ke obrolan!"
-help_button_add_alita: "➕ Tambahkan Alita ke obrolan!"
+help_button_add_shadow: "➕ Tambahkan shadow ke obrolan!"
 help_button_commands_help: "📚 Perintah & Bantuan"
 help_button_language: "Bahasa 🌏"
 help_click_button_info: "Klik tombol di bawah untuk mendapatkan info tentang saya!"
@@ -1678,13 +1678,13 @@ bot_updates_button_expired: "Tombol ini telah kedaluwarsa, Silakan gunakan perin
 
 # Formatting module additional strings
 formatting_press_button: "Tekan tombol di bawah untuk mendapatkan Bantuan Markdown!"
-formatting_large_options: "Alita mendukung banyak opsi pemformatan untuk membuat pesan Anda lebih ekspresif. Lihatlah!"
+formatting_large_options: "shadow mendukung banyak opsi pemformatan untuk membuat pesan Anda lebih ekspresif. Lihatlah!"
 
 # Help module additional strings
-help_bot_intro: "Hai! Nama saya Alita ✨.\nSaya di sini untuk membantu Anda mengelola grup Anda!\nTekan /help untuk mengetahui lebih lanjut tentang cara menggunakan saya sepenuhnya.\n"
+help_bot_intro: "Hai! Nama saya shadow ✨.\nSaya di sini untuk membantu Anda mengelola grup Anda!\nTekan /help untuk mengetahui lebih lanjut tentang cara menggunakan saya sepenuhnya.\n"
 help_pm_intro: |
   Hai %s!
-  Nama saya Alita ✨.
+  Nama saya shadow ✨.
 
   Saya adalah bot manajemen grup, di sini untuk membantu Anda berkeliling dan menjaga ketertiban di grup Anda!
   Saya punya banyak fitur praktis, seperti kontrol flood, sistem peringatan, sistem penyimpanan catatan, dan bahkan balasan yang telah ditentukan pada kata kunci tertentu.
@@ -1694,7 +1694,7 @@ help_pm_intro: |
   - /help: Mengirim pesan ini; Saya akan memberi tahu Anda lebih banyak tentang diri saya!
   - /donate: Memberi Anda info tentang cara mendukung saya dan kreator saya.
 
-  Jika Anda memiliki bug atau pertanyaan tentang cara menggunakan saya, lihat situs web saya, atau pergi ke @DivideSupport.
+  Jika Anda memiliki bug atau pertanyaan tentang cara menggunakan saya, lihat situs web saya, atau pergi ke @KazerDira.
   Semua perintah dapat digunakan dengan / atau !.
 
 # Captcha module strings
@@ -2531,3 +2531,4 @@ antiraid_invalid_threshold: "Ambang tidak valid. Berikan angka positif atau 'off
 antiraid_auto_triggered: "Raid otomatis dipicu! %s pengguna bergabung/menit — pendatang baru dilarang sementara."
 antiraid_btn_enable: "Aktifkan AntiRaid"
 antiraid_btn_disable: "Nonaktifkan AntiRaid"
+

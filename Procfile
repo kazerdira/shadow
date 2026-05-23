@@ -1,1 +1,1 @@
-web: bin/Alita_Robot
+web: bin/shadow

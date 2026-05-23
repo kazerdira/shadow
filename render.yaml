@@ -1,7 +1,7 @@
 services:
   # Main bot service
   - type: web
-    name: alita-robot
+    name: shadow-robot
     runtime: docker
     dockerfilePath: ./docker/alpine
     dockerContext: .
@@ -16,12 +16,12 @@ services:
         sync: false
       - key: DATABASE_URL
         fromDatabase:
-          name: alita-db
+          name: shadow-db
           property: connectionString
       - key: REDIS_ADDRESS
         fromService:
           type: redis
-          name: alita-redis
+          name: shadow-redis
           property: hostport
       - key: AUTO_MIGRATE
         value: "true"
@@ -29,12 +29,12 @@ services:
         value: "10000"
   # Redis service
   - type: redis
-    name: alita-redis
+    name: shadow-redis
     plan: free
     maxmemoryPolicy: noeviction
     ipAllowList: [] # Allow all internal services
 
 databases:
-  - name: alita-db
+  - name: shadow-db
     plan: free
-    databaseName: alita_robot
+    databaseName: shadow

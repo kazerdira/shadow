@@ -194,16 +194,16 @@ jobs:
 
       - name: Build Go binary
         run: |
-          CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /tmp/alita_robot .
+          CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o /tmp/shadow .
           # Version check from /tmp to avoid loading .env file (no services needed)
-          cd /tmp && ./alita_robot --version
+          cd /tmp && ./shadow --version
 
       - name: Upload build artifact
         if: matrix.go-version == 'stable'
         uses: actions/upload-artifact@v7
         with:
           name: build-artifact-${{ github.sha }}
-          path: /tmp/alita_robot
+          path: /tmp/shadow
           retention-days: 7
 
   # Automated regression tests
@@ -217,11 +217,11 @@ jobs:
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: alita_test
+          POSTGRES_DB: shadow_test
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U postgres -d alita_test"
+          --health-cmd "pg_isready -U postgres -d shadow_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
@@ -239,7 +239,7 @@ jobs:
       OWNER_ID: "1"
       MESSAGE_DUMP: "1"
       REDIS_ADDRESS: "localhost:6379"
-      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/alita_test?sslmode=disable"
+      DATABASE_URL: "postgres://postgres:postgres@localhost:5432/shadow_test?sslmode=disable"
       AUTO_MIGRATE: "false"
       USE_WEBHOOKS: "false"
       DEBUG: "false"
@@ -401,7 +401,7 @@ jobs:
             type=raw,value=dev-${{ steps.short-sha.outputs.short_sha }}
             type=raw,value=${{ steps.short-sha.outputs.short_sha }}
           labels: |
-            org.opencontainers.image.title=Alita Robot Development Build
+            org.opencontainers.image.title=shadow Robot Development Build
             org.opencontainers.image.description=Development build from main branch
             org.opencontainers.image.source=${{ github.event.repository.html_url }}
             org.opencontainers.image.revision=${{ github.sha }}

@@ -1,16 +1,16 @@
-# This is to run the alita-robot in debug mode with alpine image
+# This is to run the shadow-robot in debug mode with alpine image
 # This starts up fast and does not do any optimizations
 services:
-  alita:
+  shadow:
     build:
       context: .
       dockerfile: docker/alpine.debug
-    container_name: alita-robot
+    container_name: shadow-robot-debug
     restart: always
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-password}@postgres:5432/${POSTGRES_DB:-alita_robot}?sslmode=disable
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-password}@postgres:5432/${POSTGRES_DB:-shadow}?sslmode=disable
       REDIS_ADDRESS: redis:6379
     depends_on:
       postgres:
@@ -20,7 +20,7 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: alita-postgres-debug
+    container_name: shadow-postgres-debug
     restart: always
     env_file:
       - .env

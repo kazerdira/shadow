@@ -1,39 +1,26 @@
-# Production Docker Compose for Alita Robot
-# Uses pre-built images from GHCR, optimized for Dokploy deployment
-#
-# Environment variables to set in Dokploy UI:
-#   BOT_TOKEN, OWNER_ID, MESSAGE_DUMP, WEBHOOK_DOMAIN, WEBHOOK_SECRET
-
+# Shadow Robot - Local Development
 services:
-  alita:
-    image: ghcr.io/divkix/alita_robot:latest
-    container_name: alita-robot
+  shadow:
+    build:
+      context: .
+      dockerfile: docker/alpine
+    container_name: shadow
     restart: always
+    env_file:
+      - .env
     environment:
-      DATABASE_URL: postgresql://alita:alita@postgres:5432/alita
+      DATABASE_URL: postgresql://shadow:shadow@postgres:5432/shadow
       REDIS_ADDRESS: redis:6379
       REDIS_PASSWORD: redis
-      AUTO_MIGRATE: "false"
-      USE_WEBHOOKS: "true"
-      HTTP_PORT: "8080"
+      AUTO_MIGRATE: "true"
+      USE_WEBHOOKS: "false"
       DROP_PENDING_UPDATES: "true"
-      BOT_TOKEN: ${BOT_TOKEN}
-      OWNER_ID: ${OWNER_ID}
-      MESSAGE_DUMP: ${MESSAGE_DUMP}
-      WEBHOOK_DOMAIN: ${WEBHOOK_DOMAIN}
-      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
-    ports:
-      - "8080:8080"
+      HTTP_PORT: "8080"
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "/alita_robot", "--health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     deploy:
       resources:
         limits:
@@ -44,30 +31,25 @@ services:
           cpus: "0.25"
 
   postgres:
-    image: postgres:18-alpine
-    container_name: alita-postgres
+    image: postgres:17-alpine
+    container_name: shadow-postgres
     restart: always
     environment:
-      POSTGRES_USER: alita
-      POSTGRES_PASSWORD: alita
-      POSTGRES_DB: alita
+      POSTGRES_USER: shadow
+      POSTGRES_PASSWORD: shadow
+      POSTGRES_DB: shadow
       POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U alita -d alita"]
+      test: ["CMD-SHELL", "pg_isready -U shadow -d shadow"]
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: "0.5"
 
   redis:
     image: redis:7-alpine
-    container_name: alita-redis
+    container_name: shadow-redis
     restart: always
     command: redis-server --requirepass redis
     healthcheck:
@@ -75,11 +57,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-          cpus: "0.25"
 
 volumes:
   postgres_data:

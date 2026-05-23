@@ -1,13 +1,13 @@
 ---
 title: Caching Architecture
-description: Redis caching implementation and patterns in Alita Robot.
+description: Redis caching implementation and patterns in shadow Robot.
 ---
 
-Alita Robot uses Redis as its caching layer to reduce database load and improve response times. This document explains the caching architecture, patterns, and best practices.
+shadow Robot uses Redis as its caching layer to reduce database load and improve response times. This document explains the caching architecture, patterns, and best practices.
 
 ## Cache Configuration
 
-The cache is initialized in `alita/utils/cache/cache.go`:
+The cache is initialized in `shadow/utils/cache/cache.go`:
 
 ```go
 package cache
@@ -66,7 +66,7 @@ The cache initialization uses exponential backoff (1s, 2s, 4s, 8s, 16s) for Redi
 
 ## TTL Values
 
-Cache Time-To-Live (TTL) values are defined in `alita/db/cache_helpers.go`:
+Cache Time-To-Live (TTL) values are defined in `shadow/db/cache_helpers.go`:
 
 | Constant | Duration | Used For |
 |----------|----------|----------|
@@ -106,30 +106,30 @@ Choose TTL based on how frequently data changes:
 
 ## Key Patterns
 
-All cache keys use the `alita:` prefix for namespace isolation:
+All cache keys use the `shadow:` prefix for namespace isolation:
 
 | Key Pattern | Description |
 |-------------|-------------|
-| `alita:chat_settings:{chatId}` | Chat settings object |
-| `alita:user_lang:{userId}` | User language preference |
-| `alita:chat_lang:{chatId}` | Chat language preference |
-| `alita:filter_list:{chatId}` | List of filters for chat |
-| `alita:blacklist:{chatId}` | Blacklist settings |
-| `alita:warn_settings:{chatId}` | Warning settings |
-| `alita:disabled_cmds:{chatId}` | Disabled commands |
-| `alita:anonAdmin:{chatId}:{msgId}` | Anonymous admin verification (20s TTL) |
-| `alita:adminCache:{chatId}` | Cached admin list for a chat (30min TTL) |
-| `alita:captcha_settings:{chatId}` | Captcha settings (30 min TTL) |
-| `alita:lock:{chatId}:{lockType}` | Lock status (1 hour TTL, from optimized queries) |
-| `alita:user:{userId}` | User basic info (1 hour TTL, from optimized queries) |
-| `alita:chat:{chatId}` | Chat basic info (30 min TTL, from optimized queries) |
-| `alita:antiflood:{chatId}` | Antiflood settings (1 hour TTL, from optimized queries) |
-| `alita:channel:{chatId}` | Channel settings (30 min TTL, from optimized queries) |
+| `shadow:chat_settings:{chatId}` | Chat settings object |
+| `shadow:user_lang:{userId}` | User language preference |
+| `shadow:chat_lang:{chatId}` | Chat language preference |
+| `shadow:filter_list:{chatId}` | List of filters for chat |
+| `shadow:blacklist:{chatId}` | Blacklist settings |
+| `shadow:warn_settings:{chatId}` | Warning settings |
+| `shadow:disabled_cmds:{chatId}` | Disabled commands |
+| `shadow:anonAdmin:{chatId}:{msgId}` | Anonymous admin verification (20s TTL) |
+| `shadow:adminCache:{chatId}` | Cached admin list for a chat (30min TTL) |
+| `shadow:captcha_settings:{chatId}` | Captcha settings (30 min TTL) |
+| `shadow:lock:{chatId}:{lockType}` | Lock status (1 hour TTL, from optimized queries) |
+| `shadow:user:{userId}` | User basic info (1 hour TTL, from optimized queries) |
+| `shadow:chat:{chatId}` | Chat basic info (30 min TTL, from optimized queries) |
+| `shadow:antiflood:{chatId}` | Antiflood settings (1 hour TTL, from optimized queries) |
+| `shadow:channel:{chatId}` | Channel settings (30 min TTL, from optimized queries) |
 
 ### Anonymous Admin Verification Flow
 
 When an anonymous admin uses a command, the bot:
-1. Stores the original message in cache with key `alita:anonAdmin:{chatId}:{msgId}`
+1. Stores the original message in cache with key `shadow:anonAdmin:{chatId}:{msgId}`
 2. Sends a verification button to the chat
 3. When clicked, the callback handler retrieves the original message from cache via `cache.GetMarshal().Get`
 4. The bot verifies the user is an admin and executes the original command
@@ -138,7 +138,7 @@ When an anonymous admin uses a command, the bot:
 // Store original message for anonymous admin
 cache.GetMarshal().Set(
     cache.Context,
-    fmt.Sprintf("alita:anonAdmin:%d:%d", chatId, msgId),
+    fmt.Sprintf("shadow:anonAdmin:%d:%d", chatId, msgId),
     originalMessage,
     store.WithExpiration(20*time.Second),  // Short TTL - button expires quickly
 )
@@ -147,7 +147,7 @@ cache.GetMarshal().Set(
 var originalMsg gotgbot.Message
 _, err := cache.GetMarshal().Get(
     cache.Context,
-    fmt.Sprintf("alita:anonAdmin:%d:%d", chatId, msgId),
+    fmt.Sprintf("shadow:anonAdmin:%d:%d", chatId, msgId),
     &originalMsg,
 )
 ```
@@ -160,35 +160,35 @@ The anonymous admin verification window is intentionally short. If the admin doe
 
 ```go
 func chatSettingsCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:chat_settings:%d", chatID)
+    return fmt.Sprintf("shadow:chat_settings:%d", chatID)
 }
 
 func userLanguageCacheKey(userID int64) string {
-    return fmt.Sprintf("alita:user_lang:%d", userID)
+    return fmt.Sprintf("shadow:user_lang:%d", userID)
 }
 
 func chatLanguageCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:chat_lang:%d", chatID)
+    return fmt.Sprintf("shadow:chat_lang:%d", chatID)
 }
 
 func filterListCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:filter_list:%d", chatID)
+    return fmt.Sprintf("shadow:filter_list:%d", chatID)
 }
 
 func blacklistCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:blacklist:%d", chatID)
+    return fmt.Sprintf("shadow:blacklist:%d", chatID)
 }
 
 func warnSettingsCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:warn_settings:%d", chatID)
+    return fmt.Sprintf("shadow:warn_settings:%d", chatID)
 }
 
 func disabledCommandsCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:disabled_cmds:%d", chatID)
+    return fmt.Sprintf("shadow:disabled_cmds:%d", chatID)
 }
 
 func captchaSettingsCacheKey(chatID int64) string {
-    return fmt.Sprintf("alita:captcha_settings:%d", chatID)
+    return fmt.Sprintf("shadow:captcha_settings:%d", chatID)
 }
 ```
 
@@ -356,7 +356,7 @@ func LoadAdminCache(b *gotgbot.Bot, chatID int64) AdminCache {
     }
 
     // Store in Redis via cache.GetMarshal().Set
-    cache.GetMarshal().Set(cache.Context, fmt.Sprintf("alita:adminCache:%d", chatID),
+    cache.GetMarshal().Set(cache.Context, fmt.Sprintf("shadow:adminCache:%d", chatID),
         adminCache, store.WithExpiration(30*time.Minute))
 
     return adminCache
@@ -494,9 +494,9 @@ func GetSettings(chatID int64) *Settings {
 
 ```go
 // GOOD - Consistent prefix and format
-"alita:chat_settings:{chatId}"
-"alita:user_lang:{userId}"
-"alita:filter_list:{chatId}"
+"shadow:chat_settings:{chatId}"
+"shadow:user_lang:{userId}"
+"shadow:filter_list:{chatId}"
 
 // BAD - Inconsistent patterns
 "settings-{chatId}"
@@ -505,7 +505,7 @@ func GetSettings(chatID int64) *Settings {
 ```
 
 :::note[Key format convention]
-All keys follow the pattern `alita:{domain}:{identifier}`. Use underscores within domain names (e.g., `chat_settings`, `user_lang`). Use colons as separators between segments. This makes it easy to use Redis `KEYS alita:chat_settings:*` for debugging.
+All keys follow the pattern `shadow:{domain}:{identifier}`. Use underscores within domain names (e.g., `chat_settings`, `user_lang`). Use colons as separators between segments. This makes it easy to use Redis `KEYS shadow:chat_settings:*` for debugging.
 :::
 
 ### 5. Set Timeout on Cache Operations
@@ -540,19 +540,19 @@ Monitor cache performance via:
 # Check cache key count
 redis-cli DBSIZE
 
-# View all Alita keys
-redis-cli KEYS "alita:*"
+# View all shadow keys
+redis-cli KEYS "shadow:*"
 
 # Check specific key TTL
-redis-cli TTL "alita:chat_settings:123456789"
+redis-cli TTL "shadow:chat_settings:123456789"
 
 # Memory usage
-redis-cli MEMORY USAGE "alita:chat_settings:123456789"
+redis-cli MEMORY USAGE "shadow:chat_settings:123456789"
 ```
 
 :::tip[Cache operations]
 Use `cache.GetMarshal().Get/Set/Delete` for direct cache operations, and prefer
-`getFromCacheOrLoad()` in `alita/db/cache_helpers.go` for DB-backed cached reads
+`getFromCacheOrLoad()` in `shadow/db/cache_helpers.go` for DB-backed cached reads
 with singleflight protection to prevent cache stampedes.
 :::
 

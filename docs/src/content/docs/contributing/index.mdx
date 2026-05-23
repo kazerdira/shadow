@@ -1,13 +1,13 @@
 ---
 title: Contributing
-description: How to contribute to Alita Robot development.
+description: How to contribute to shadow Robot development.
 ---
 
 import { Steps } from '@astrojs/starlight/components';
 
-# Contributing to Alita Robot
+# Contributing to shadow Robot
 
-Thank you for your interest in contributing to Alita Robot! This guide will help you get started with development.
+Thank you for your interest in contributing to shadow Robot! This guide will help you get started with development.
 
 ## Development Setup
 
@@ -25,8 +25,8 @@ Thank you for your interest in contributing to Alita Robot! This guide will help
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/divkix/Alita_Robot.git
-   cd Alita_Robot
+   git clone https://github.com/kazerdira/shadow.git
+   cd shadow
    ```
 
 2. **Configure environment**
@@ -76,8 +76,8 @@ make psql-reset    # Reset database (DANGEROUS: drops all tables)
 ## Project Structure
 
 ```
-Alita_Robot/
-├── alita/
+shadow/
+├── shadow/
 │   ├── config/       # Configuration and environment parsing
 │   ├── db/           # Database operations and repositories
 │   ├── i18n/         # Internationalization
@@ -92,15 +92,15 @@ Alita_Robot/
 
 <Steps>
 
-1. **Create database operations** in `alita/db/{module}_db.go`
+1. **Create database operations** in `shadow/db/{module}_db.go`
 
-2. **Implement command handlers** in `alita/modules/{module}.go`
+2. **Implement command handlers** in `shadow/modules/{module}.go`
 
 3. **Register commands** in a `LoadXxx(dispatcher)` function
 
 4. **Add translations** to `locales/en.yml` (and other locale files)
 
-5. **Call `LoadMyModule(dispatcher)`** from `LoadModules()` in `alita/main.go`
+5. **Call `LoadMyModule(dispatcher)`** from `LoadModules()` in `shadow/main.go`
 
 </Steps>
 
@@ -157,7 +157,7 @@ pip install pre-commit && pre-commit install
 Always escape user-controlled input before rendering in HTML-formatted messages:
 
 ```go
-import "github.com/divkix/Alita_Robot/alita/utils/helpers"
+import "github.com/kazerdira/shadow/shadow/utils/helpers"
 
 // Wrong - vulnerable to HTML injection
 text := fmt.Sprintf("Welcome to %s!", chat.Title)
@@ -276,7 +276,7 @@ if user == nil {
 }
 ```
 
-### Shadow Variables in Conditionals
+### shadow Variables in Conditionals
 
 **Problem:** Using `:=` inside conditionals creates a new variable that shadows the outer one.
 
@@ -377,4 +377,4 @@ The `tgmd2html` library provides conversion functions:
 ## Getting Help
 
 - **Support Group**: [t.me/DivideSupport](https://t.me/DivideSupport)
-- **GitHub Issues**: [Report bugs or request features](https://github.com/divkix/Alita_Robot/issues)
+- **GitHub Issues**: [Report bugs or request features](https://github.com/kazerdira/shadow/issues)

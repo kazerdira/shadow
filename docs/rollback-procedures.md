@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive rollback procedures for all three phases of the database schema fixes implemented in the Alita Robot project. These procedures are critical for production safety and should be tested before deployment.
+This document provides comprehensive rollback procedures for all three phases of the database schema fixes implemented in the shadow Robot project. These procedures are critical for production safety and should be tested before deployment.
 
 **Phases Covered:**
 - **Phase 1**: CHECK Constraints (Migration: `20250807115000_add_database_constraints.sql`)
@@ -88,7 +88,7 @@ This is the safest rollback method.
 
 ```bash
 # 1. Stop the application
-systemctl stop alita-robot
+systemctl stop shadow-robot
 # OR if using Docker
 docker-compose down
 
@@ -108,7 +108,7 @@ git checkout pre-fk-migration
 
 # 6. Rebuild and start application
 make build
-systemctl start alita-robot
+systemctl start shadow-robot
 ```
 
 ### Option B: Manual FK Constraint Removal
@@ -117,7 +117,7 @@ Use this if you need to keep recent data but remove FK constraints.
 
 ```bash
 # Stop the application
-systemctl stop alita-robot
+systemctl stop shadow-robot
 
 # Drop all foreign key constraints
 psql $DATABASE_URL << 'EOF'
@@ -191,7 +191,7 @@ git checkout pre-fk-migration
 make build
 
 # Start application
-systemctl start alita-robot
+systemctl start shadow-robot
 ```
 
 ### Option C: Git Rollback Only
@@ -207,7 +207,7 @@ git checkout pre-fk-migration
 
 # Rebuild and restart
 make build
-systemctl restart alita-robot
+systemctl restart shadow-robot
 ```
 
 ### Verification Steps
@@ -252,7 +252,7 @@ export ENABLE_DB_MONITORING=false
 echo "ENABLE_DB_MONITORING=false" >> .env
 
 # Restart application
-systemctl restart alita-robot
+systemctl restart shadow-robot
 ```
 
 ### Code Rollback (Git)
@@ -266,14 +266,14 @@ git revert <monitoring-commit-hash>
 
 # Rebuild and restart
 make build
-systemctl restart alita-robot
+systemctl restart shadow-robot
 ```
 
 ### Verification Steps
 
 ```bash
 # Check logs for monitoring messages
-journalctl -u alita-robot -f | grep -i "monitoring"
+journalctl -u shadow-robot -f | grep -i "monitoring"
 # Should show no monitoring messages
 
 # Verify application still functions
@@ -334,7 +334,7 @@ SELECT
 "
 
 # Check application logs
-journalctl -u alita-robot -n 100 | grep -i "error"
+journalctl -u shadow-robot -n 100 | grep -i "error"
 ```
 
 ### Phase 3 Success Criteria
@@ -352,7 +352,7 @@ echo $ENABLE_DB_MONITORING
 # Should return "false" or empty
 
 # Check logs
-journalctl -u alita-robot -n 50 | grep -i "monitoring"
+journalctl -u shadow-robot -n 50 | grep -i "monitoring"
 # Should return no results
 
 # Verify database connectivity
@@ -443,18 +443,18 @@ grep ENABLE_DB_MONITORING .env
 # Should show "true" or be unset (default enabled)
 
 # 2. Check logs show monitoring
-journalctl -u alita-robot -n 20 | grep -i "monitoring"
+journalctl -u shadow-robot -n 20 | grep -i "monitoring"
 
 # 3. Disable monitoring
 export ENABLE_DB_MONITORING=false
-systemctl restart alita-robot
+systemctl restart shadow-robot
 
 # 4. Verify monitoring disabled
 echo $ENABLE_DB_MONITORING
 # Should return "false"
 
 # 5. Check logs show no monitoring
-journalctl -u alita-robot -n 20 | grep -i "monitoring"
+journalctl -u shadow-robot -n 20 | grep -i "monitoring"
 # Should return no results
 
 # 6. Verify application still works
@@ -471,12 +471,12 @@ psql $DATABASE_URL -c "SELECT 1;"
 
 ```bash
 # 1. STOP THE APPLICATION
-systemctl stop alita-robot
+systemctl stop shadow-robot
 # OR
 docker-compose down
 
 # 2. Assess the situation
-# - Check logs: journalctl -u alita-robot -n 100
+# - Check logs: journalctl -u shadow-robot -n 100
 # - Check database: psql $DATABASE_URL -c "SELECT COUNT(*) FROM chats;"
 # - Check constraints: psql $DATABASE_URL -c "\d"
 
@@ -489,10 +489,10 @@ docker-compose down
 # (Use procedures above)
 
 # 5. Verify and start
-systemctl start alita-robot
+systemctl start shadow-robot
 
 # 6. Monitor closely
-journalctl -u alita-robot -f
+journalctl -u shadow-robot -f
 ```
 
 ### When to Use Each Rollback
@@ -527,7 +527,7 @@ After completing any rollback:
 1. **Verify Application Health**
    ```bash
    # Check application logs
-   journalctl -u alita-robot -n 100
+   journalctl -u shadow-robot -n 100
 
    # Verify database connectivity
    psql $DATABASE_URL -c "SELECT 1;"
@@ -576,7 +576,7 @@ if [ "$confirm" != "yes" ]; then
 fi
 
 echo "Stopping application..."
-systemctl stop alita-robot
+systemctl stop shadow-robot
 
 echo "Creating pre-rollback backup..."
 pg_dump $DATABASE_URL | gzip > "backups/emergency_pre_rollback_$(date +%Y%m%d_%H%M%S).sql.gz"
@@ -653,7 +653,7 @@ else
 fi
 
 echo "Restarting application..."
-systemctl start alita-robot
+systemctl start shadow-robot
 
 echo "=== ROLLBACK COMPLETE ==="
 echo "Please verify application is functioning correctly"

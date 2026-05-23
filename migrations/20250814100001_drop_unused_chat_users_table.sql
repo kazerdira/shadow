@@ -135,3 +135,4 @@ BEGIN
         RAISE WARNING 'Migration may not have completed as expected';
     END IF;
 END $$;
+

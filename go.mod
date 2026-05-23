@@ -1,4 +1,4 @@
-module github.com/divkix/Alita_Robot
+module github.com/kazerdira/shadow
 
 go 1.26.0
 

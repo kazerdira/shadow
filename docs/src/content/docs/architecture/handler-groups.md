@@ -1,6 +1,6 @@
 ---
 title: Handler Group Precedence
-description: Which message watchers fire first and how propagation works in Alita Robot.
+description: Which message watchers fire first and how propagation works in shadow Robot.
 ---
 
 # Handler Group Precedence

@@ -1,24 +1,24 @@
 ---
 title: Binary Installation
-description: Deploy Alita Robot using pre-built binaries.
+description: Deploy shadow Robot using pre-built binaries.
 ---
 
 import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 # Binary Installation
 
-Pre-built binaries are available for all major platforms, making it easy to deploy Alita Robot without Docker or building from source.
+Pre-built binaries are available for all major platforms, making it easy to deploy shadow Robot without Docker or building from source.
 
 ## Available Platforms
 
 | Platform | Architecture | Binary Name |
 |----------|-------------|-------------|
-| Linux | amd64 | `alita_robot_linux_amd64` |
-| Linux | arm64 | `alita_robot_linux_arm64` |
-| macOS | amd64 (Intel) | `alita_robot_macOS_amd64` |
-| macOS | arm64 (Apple Silicon) | `alita_robot_macOS_arm64` |
-| Windows | amd64 | `alita_robot_windows_amd64.exe` |
-| Windows | arm64 | `alita_robot_windows_arm64.exe` |
+| Linux | amd64 | `shadow_linux_amd64` |
+| Linux | arm64 | `shadow_linux_arm64` |
+| macOS | amd64 (Intel) | `shadow_macOS_amd64` |
+| macOS | arm64 (Apple Silicon) | `shadow_macOS_arm64` |
+| Windows | amd64 | `shadow_windows_amd64.exe` |
+| Windows | arm64 | `shadow_windows_arm64.exe` |
 
 :::caution[Platform Selection]
 Make sure you download the correct binary for your platform and architecture. Running the wrong binary will result in an "exec format error" or similar failure.
@@ -30,19 +30,19 @@ Download the latest release from GitHub:
 
 ```bash
 # Get the latest release version
-VERSION=$(curl -s https://api.github.com/repos/divkix/Alita_Robot/releases/latest | grep tag_name | cut -d '"' -f 4)
+VERSION=$(curl -s https://api.github.com/repos/kazerdira/shadow/releases/latest | grep tag_name | cut -d '"' -f 4)
 
 # Download for Linux amd64
-curl -LO "https://github.com/divkix/Alita_Robot/releases/download/${VERSION}/alita_robot_${VERSION}_linux_amd64.tar.gz"
+curl -LO "https://github.com/kazerdira/shadow/releases/download/${VERSION}/shadow_${VERSION}_linux_amd64.tar.gz"
 
 # Extract
-tar -xzf alita_robot_${VERSION}_linux_amd64.tar.gz
+tar -xzf shadow_${VERSION}_linux_amd64.tar.gz
 
 # Make executable
-chmod +x alita_robot
+chmod +x shadow
 ```
 
-Or visit the [GitHub Releases](https://github.com/divkix/Alita_Robot/releases) page to download manually.
+Or visit the [GitHub Releases](https://github.com/kazerdira/shadow/releases) page to download manually.
 
 ## Verify Checksums
 
@@ -50,7 +50,7 @@ Each release includes a `checksums.txt` file with SHA256 hashes:
 
 ```bash
 # Download checksums
-curl -LO "https://github.com/divkix/Alita_Robot/releases/download/${VERSION}/checksums.txt"
+curl -LO "https://github.com/kazerdira/shadow/releases/download/${VERSION}/checksums.txt"
 
 # Verify
 sha256sum -c checksums.txt --ignore-missing
@@ -73,7 +73,7 @@ Always verify checksums after downloading to ensure the binary has not been tamp
    BOT_TOKEN=your_bot_token
    OWNER_ID=your_telegram_id
    MESSAGE_DUMP=-100xxxxxxxxxx
-   DATABASE_URL=postgres://user:pass@localhost:5432/alita
+   DATABASE_URL=postgres://user:pass@localhost:5432/shadow
    REDIS_ADDRESS=localhost:6379
    EOF
    ```
@@ -81,42 +81,42 @@ Always verify checksums after downloading to ensure the binary has not been tamp
 3. **Run the bot**
 
    ```bash
-   ./alita_robot
+   ./shadow
    ```
 
 </Steps>
 
 ## Systemd Service (Linux)
 
-For production deployments on Linux, run Alita Robot as a systemd service.
+For production deployments on Linux, run shadow Robot as a systemd service.
 
 ### Create Service File
 
 ```bash
-sudo nano /etc/systemd/system/alita-robot.service
+sudo nano /etc/systemd/system/shadow-robot.service
 ```
 
 Add the following content:
 
 ```ini
 [Unit]
-Description=Alita Robot Telegram Bot
+Description=shadow Robot Telegram Bot
 After=network.target postgresql.service redis.service
 Wants=postgresql.service redis.service
 
 [Service]
 Type=simple
-User=alita
-Group=alita
-WorkingDirectory=/opt/alita-robot
-ExecStart=/opt/alita-robot/alita_robot
+User=shadow
+Group=shadow
+WorkingDirectory=/opt/shadow-robot
+ExecStart=/opt/shadow-robot/shadow
 Restart=always
 RestartSec=5
 StandardOutput=journal
 StandardError=journal
 
 # Environment file
-EnvironmentFile=/opt/alita-robot/.env
+EnvironmentFile=/opt/shadow-robot/.env
 
 # Resource limits
 LimitNOFILE=65535
@@ -146,31 +146,31 @@ WantedBy=multi-user.target
 1. **Create user and directory**
 
    ```bash
-   sudo useradd -r -s /bin/false alita
-   sudo mkdir -p /opt/alita-robot
-   sudo chown alita:alita /opt/alita-robot
+   sudo useradd -r -s /bin/false shadow
+   sudo mkdir -p /opt/shadow-robot
+   sudo chown shadow:shadow /opt/shadow-robot
    ```
 
 2. **Copy binary and config**
 
    ```bash
-   sudo cp alita_robot /opt/alita-robot/
-   sudo cp .env /opt/alita-robot/
-   sudo chmod 600 /opt/alita-robot/.env
-   sudo chown alita:alita /opt/alita-robot/*
+   sudo cp shadow /opt/shadow-robot/
+   sudo cp .env /opt/shadow-robot/
+   sudo chmod 600 /opt/shadow-robot/.env
+   sudo chown shadow:shadow /opt/shadow-robot/*
    ```
 
 3. **Copy migrations if using auto-migrate**
 
    ```bash
-   sudo cp -r migrations /opt/alita-robot/
+   sudo cp -r migrations /opt/shadow-robot/
    ```
 
 4. **Reload systemd and enable service**
 
    ```bash
    sudo systemctl daemon-reload
-   sudo systemctl enable alita-robot
+   sudo systemctl enable shadow-robot
    ```
 
 </Steps>
@@ -179,19 +179,19 @@ WantedBy=multi-user.target
 
 ```bash
 # Start the service
-sudo systemctl start alita-robot
+sudo systemctl start shadow-robot
 
 # Check status
-sudo systemctl status alita-robot
+sudo systemctl status shadow-robot
 
 # View logs
-sudo journalctl -u alita-robot -f
+sudo journalctl -u shadow-robot -f
 
 # Stop the service
-sudo systemctl stop alita-robot
+sudo systemctl stop shadow-robot
 
 # Restart the service
-sudo systemctl restart alita-robot
+sudo systemctl restart shadow-robot
 ```
 
 ## Log Rotation
@@ -199,7 +199,7 @@ sudo systemctl restart alita-robot
 Configure log rotation for journald logs:
 
 ```bash
-sudo nano /etc/systemd/journald.conf.d/alita-robot.conf
+sudo nano /etc/systemd/journald.conf.d/shadow-robot.conf
 ```
 
 ```ini
@@ -212,34 +212,34 @@ MaxRetentionSec=1month
 Or use a dedicated log file with logrotate:
 
 ```bash
-sudo nano /etc/logrotate.d/alita-robot
+sudo nano /etc/logrotate.d/shadow-robot
 ```
 
 ```
-/var/log/alita-robot/*.log {
+/var/log/shadow-robot/*.log {
     daily
     rotate 7
     compress
     delaycompress
     missingok
     notifempty
-    create 640 alita alita
+    create 640 shadow shadow
     postrotate
-        systemctl reload alita-robot > /dev/null 2>&1 || true
+        systemctl reload shadow-robot > /dev/null 2>&1 || true
     endscript
 }
 ```
 
 ## Environment File
 
-Create `/opt/alita-robot/.env`:
+Create `/opt/shadow-robot/.env`:
 
 ```bash
 # Required
 BOT_TOKEN=your_bot_token
 OWNER_ID=your_telegram_id
 MESSAGE_DUMP=-100xxxxxxxxxx
-DATABASE_URL=postgres://user:pass@localhost:5432/alita
+DATABASE_URL=postgres://user:pass@localhost:5432/shadow
 REDIS_ADDRESS=localhost:6379
 
 # Optional but recommended
@@ -266,18 +266,18 @@ Always set restrictive permissions on the `.env` file since it contains sensitiv
 <Tabs>
   <TabItem label="Apple Silicon">
     ```bash
-    curl -LO "https://github.com/divkix/Alita_Robot/releases/latest/download/alita_robot_macOS_arm64.tar.gz"
-    tar -xzf alita_robot_macOS_arm64.tar.gz
-    chmod +x alita_robot
-    ./alita_robot
+    curl -LO "https://github.com/kazerdira/shadow/releases/latest/download/shadow_macOS_arm64.tar.gz"
+    tar -xzf shadow_macOS_arm64.tar.gz
+    chmod +x shadow
+    ./shadow
     ```
   </TabItem>
   <TabItem label="Intel">
     ```bash
-    curl -LO "https://github.com/divkix/Alita_Robot/releases/latest/download/alita_robot_macOS_amd64.tar.gz"
-    tar -xzf alita_robot_macOS_amd64.tar.gz
-    chmod +x alita_robot
-    ./alita_robot
+    curl -LO "https://github.com/kazerdira/shadow/releases/latest/download/shadow_macOS_amd64.tar.gz"
+    tar -xzf shadow_macOS_amd64.tar.gz
+    chmod +x shadow
+    ./shadow
     ```
   </TabItem>
 </Tabs>
@@ -288,7 +288,7 @@ For automatic startup on macOS:
 
 ```bash
 mkdir -p ~/Library/LaunchAgents
-nano ~/Library/LaunchAgents/com.alita-robot.plist
+nano ~/Library/LaunchAgents/com.shadow-robot.plist
 ```
 
 ```xml
@@ -297,21 +297,21 @@ nano ~/Library/LaunchAgents/com.alita-robot.plist
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.alita-robot</string>
+    <string>com.shadow-robot</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/alita_robot</string>
+        <string>/usr/local/bin/shadow</string>
     </array>
     <key>WorkingDirectory</key>
-    <string>/usr/local/etc/alita-robot</string>
+    <string>/usr/local/etc/shadow-robot</string>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/usr/local/var/log/alita-robot.log</string>
+    <string>/usr/local/var/log/shadow-robot.log</string>
     <key>StandardErrorPath</key>
-    <string>/usr/local/var/log/alita-robot.log</string>
+    <string>/usr/local/var/log/shadow-robot.log</string>
 </dict>
 </plist>
 ```
@@ -319,15 +319,15 @@ nano ~/Library/LaunchAgents/com.alita-robot.plist
 Load the agent:
 
 ```bash
-launchctl load ~/Library/LaunchAgents/com.alita-robot.plist
+launchctl load ~/Library/LaunchAgents/com.shadow-robot.plist
 ```
 
 ## Windows Installation
 
 ### Download and Extract
 
-1. Download the Windows binary from [GitHub Releases](https://github.com/divkix/Alita_Robot/releases)
-2. Extract the ZIP file to a directory (e.g., `C:\alita-robot`)
+1. Download the Windows binary from [GitHub Releases](https://github.com/kazerdira/shadow/releases)
+2. Extract the ZIP file to a directory (e.g., `C:\shadow-robot`)
 3. Create a `.env` file in the same directory
 
 ### Run as a Service
@@ -339,13 +339,13 @@ Use [NSSM](https://nssm.cc/) (Non-Sucking Service Manager) to run as a Windows s
 choco install nssm
 
 # Install service
-nssm install AlitaRobot C:\alita-robot\alita_robot.exe
-nssm set AlitaRobot AppDirectory C:\alita-robot
-nssm set AlitaRobot AppEnvironmentExtra BOT_TOKEN=your_token
-nssm set AlitaRobot Start SERVICE_AUTO_START
+nssm install shadowRobot C:\shadow-robot\shadow.exe
+nssm set shadowRobot AppDirectory C:\shadow-robot
+nssm set shadowRobot AppEnvironmentExtra BOT_TOKEN=your_token
+nssm set shadowRobot Start SERVICE_AUTO_START
 
 # Start service
-nssm start AlitaRobot
+nssm start shadowRobot
 ```
 
 ## Updating
@@ -355,26 +355,26 @@ nssm start AlitaRobot
 1. **Stop the service**
 
    ```bash
-   sudo systemctl stop alita-robot
+   sudo systemctl stop shadow-robot
    ```
 
 2. **Download the new binary**
 
    ```bash
-   curl -LO "https://github.com/divkix/Alita_Robot/releases/latest/download/alita_robot_linux_amd64.tar.gz"
-   tar -xzf alita_robot_linux_amd64.tar.gz
+   curl -LO "https://github.com/kazerdira/shadow/releases/latest/download/shadow_linux_amd64.tar.gz"
+   tar -xzf shadow_linux_amd64.tar.gz
    ```
 
 3. **Replace the existing binary**
 
    ```bash
-   sudo cp alita_robot /opt/alita-robot/
+   sudo cp shadow /opt/shadow-robot/
    ```
 
 4. **Start the service**
 
    ```bash
-   sudo systemctl start alita-robot
+   sudo systemctl start shadow-robot
    ```
 
 </Steps>
@@ -384,7 +384,7 @@ nssm start AlitaRobot
 ### Permission denied
 
 ```bash
-chmod +x alita_robot
+chmod +x shadow
 ```
 
 ### Library not found
@@ -398,7 +398,7 @@ The binary is statically compiled, so no external libraries are needed. If you s
 Verify PostgreSQL is running and accessible:
 
 ```bash
-psql -h localhost -U postgres -d alita -c "SELECT 1"
+psql -h localhost -U postgres -d shadow -c "SELECT 1"
 ```
 
 ### Service won't start
@@ -406,7 +406,7 @@ psql -h localhost -U postgres -d alita -c "SELECT 1"
 Check the logs:
 
 ```bash
-sudo journalctl -u alita-robot -n 50
+sudo journalctl -u shadow-robot -n 50
 ```
 
 Common issues:

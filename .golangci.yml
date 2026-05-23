@@ -1,4 +1,4 @@
-# golangci-lint configuration for Alita Robot
+# golangci-lint configuration for shadow Robot
 version: "2"
 
 run:

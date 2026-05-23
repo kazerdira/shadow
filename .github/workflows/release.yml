@@ -47,8 +47,8 @@ jobs:
 
       - name: Test release build
         run: |
-          CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o alita_robot .
-          if [ ! -f alita_robot ]; then
+          CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" -o shadow .
+          if [ ! -f shadow ]; then
             echo "Build failed"
             exit 1
           fi
@@ -165,7 +165,7 @@ jobs:
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ghcr.io/divkix/alita_robot:latest
+          image-ref: ghcr.io/kazerdira/shadow:latest
           format: table
           exit-code: 0
           severity: CRITICAL,HIGH
@@ -174,4 +174,4 @@ jobs:
         run: |
           echo "Release completed successfully!"
           echo "Artifacts published to GitHub Releases"
-          echo "Docker images available at ghcr.io/divkix/alita_robot"
+          echo "Docker images available at ghcr.io/kazerdira/shadow"

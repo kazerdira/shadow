@@ -1,4 +1,4 @@
-// Package main provides a documentation generator for Alita Robot.
+// Package main provides a documentation generator for shadow Robot.
 // It parses the codebase and generates Markdown documentation for Astro/Starlight.
 package main
 
@@ -106,11 +106,11 @@ var config Config
 func main() {
 	// Parse flags
 	flag.StringVar(&config.LocalesPath, "locales", "locales", "Path to locales directory")
-	flag.StringVar(&config.ModulesPath, "modules", "alita/modules", "Path to modules directory")
-	flag.StringVar(&config.ConfigPath, "config", "alita/config/config.go", "Path to config.go")
+	flag.StringVar(&config.ModulesPath, "modules", "shadow/modules", "Path to modules directory")
+	flag.StringVar(&config.ConfigPath, "config", "shadow/config/config.go", "Path to config.go")
 	flag.StringVar(&config.MigrationsPath, "migrations", "migrations", "Path to migrations directory")
 	flag.StringVar(&config.SampleEnvPath, "sample-env", "sample.env", "Path to sample.env")
-	flag.StringVar(&config.ChatStatusPath, "chat-status", "alita/utils/chat_status/chat_status.go", "Path to chat_status.go")
+	flag.StringVar(&config.ChatStatusPath, "chat-status", "shadow/utils/chat_status/chat_status.go", "Path to chat_status.go")
 	flag.StringVar(&config.DocsOutputPath, "output", "docs/src/content/docs", "Output path for generated docs")
 	var inventoryMode bool
 	flag.BoolVar(&config.Verbose, "verbose", false, "Enable verbose logging")
@@ -138,7 +138,7 @@ func main() {
 		return
 	}
 
-	log.Info("🚀 Starting Alita Robot Documentation Generator")
+	log.Info("🚀 Starting shadow Robot Documentation Generator")
 
 	// Parse all sources
 	log.Info("📖 Parsing translations...")
@@ -368,7 +368,7 @@ func generateInventory(projectRoot string) error {
 	for moduleName, sourceFile := range moduleSet {
 		invMod := InventoryModule{
 			Module:     moduleName,
-			SourceFile: filepath.Join("alita", "modules", sourceFile),
+			SourceFile: filepath.Join("shadow", "modules", sourceFile),
 		}
 
 		// Mark bot_updates as internal

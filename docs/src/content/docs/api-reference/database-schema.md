@@ -6,14 +6,14 @@ description: Complete reference of the PostgreSQL database schema
 
 # Database Schema
 
-This page documents the complete PostgreSQL database schema for Alita Robot.
+This page documents the complete PostgreSQL database schema for shadow Robot.
 
 ## Overview
 
 - **Total Tables**: 26
 - **Database Type**: PostgreSQL
 - **ORM**: GORM
-- **Migration Tool**: Custom SQL migration runner (`alita/db/migrations.go`)
+- **Migration Tool**: Custom SQL migration runner (`shadow/db/migrations.go`)
 - **Migrations**: 28 files using `YYYYMMDDHHMMSS_description.sql` naming (e.g., `20250805200527_initial_migration.sql`)
 
 ## Design Patterns

@@ -1,13 +1,13 @@
 ---
 title: Building from Source
-description: Compile Alita Robot from source code.
+description: Compile shadow Robot from source code.
 ---
 
 import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 # Building from Source
 
-Build Alita Robot from source for development, customization, or when pre-built binaries are not available for your platform.
+Build shadow Robot from source for development, customization, or when pre-built binaries are not available for your platform.
 
 ## Prerequisites
 
@@ -63,8 +63,8 @@ All tools below must be accessible from your `PATH`. After installing Go or gola
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/divkix/Alita_Robot.git
-cd Alita_Robot
+git clone https://github.com/kazerdira/shadow.git
+cd shadow
 ```
 
 ## Build Commands
@@ -106,13 +106,13 @@ go run main.go
 Build for your current platform:
 
 ```bash
-go build -o alita_robot .
+go build -o shadow .
 ```
 
 :::tip[Smaller Binaries]
 Build with optimizations to strip debug symbols and reduce binary size:
 ```bash
-go build -ldflags="-s -w" -o alita_robot .
+go build -ldflags="-s -w" -o shadow .
 ```
 :::
 
@@ -120,13 +120,13 @@ Cross-compile for other platforms:
 
 ```bash
 # Linux amd64
-GOOS=linux GOARCH=amd64 go build -o alita_robot_linux_amd64 .
+GOOS=linux GOARCH=amd64 go build -o shadow_linux_amd64 .
 
 # macOS arm64
-GOOS=darwin GOARCH=arm64 go build -o alita_robot_darwin_arm64 .
+GOOS=darwin GOARCH=arm64 go build -o shadow_darwin_arm64 .
 
 # Windows amd64
-GOOS=windows GOARCH=amd64 go build -o alita_robot_windows_amd64.exe .
+GOOS=windows GOARCH=amd64 go build -o shadow_windows_amd64.exe .
 ```
 
 ## Makefile Targets
@@ -178,7 +178,7 @@ This:
 ## Project Structure
 
 ```
-Alita_Robot/
+shadow/
 ├── main.go              # Entry point
 ├── go.mod               # Go module definition
 ├── go.sum               # Dependency checksums
@@ -186,7 +186,7 @@ Alita_Robot/
 ├── .goreleaser.yaml     # GoReleaser configuration
 ├── sample.env           # Example environment file
 ├── docker-compose.yml   # Docker Compose configuration
-├── alita/               # Main application code
+├── shadow/               # Main application code
 │   ├── config/          # Configuration loading
 │   ├── db/              # Database models and operations
 │   ├── modules/         # Bot command handlers
@@ -221,10 +221,10 @@ The `.goreleaser.yaml` defines the build process:
 
 ```yaml
 version: 2
-project_name: alita_robot
+project_name: shadow
 
 builds:
-  - binary: alita_robot
+  - binary: shadow
     env:
       - CGO_ENABLED=0
     goos:
@@ -246,16 +246,16 @@ After running `make build`, binaries are created in:
 
 ```
 dist/
-├── alita_robot_linux_amd64/
-│   └── alita_robot
-├── alita_robot_linux_arm64/
-│   └── alita_robot
-├── alita_robot_darwin_amd64/
-│   └── alita_robot
-├── alita_robot_darwin_arm64/
-│   └── alita_robot
-├── alita_robot_windows_amd64/
-│   └── alita_robot.exe
+├── shadow_linux_amd64/
+│   └── shadow
+├── shadow_linux_arm64/
+│   └── shadow
+├── shadow_darwin_amd64/
+│   └── shadow
+├── shadow_darwin_arm64/
+│   └── shadow
+├── shadow_windows_amd64/
+│   └── shadow.exe
 └── checksums.txt
 ```
 
@@ -309,8 +309,8 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-cmd = "go build -o ./tmp/alita_robot ."
-bin = "tmp/alita_robot"
+cmd = "go build -o ./tmp/shadow ."
+bin = "tmp/shadow"
 include_ext = ["go"]
 exclude_dir = ["tmp", "vendor", "docs"]
 ```
@@ -362,5 +362,5 @@ The bot is built with `CGO_ENABLED=0` for static binaries. If you explicitly nee
 :::
 
 ```bash
-CGO_ENABLED=1 go build -o alita_robot .
+CGO_ENABLED=1 go build -o shadow .
 ```

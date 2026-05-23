@@ -6,7 +6,7 @@ description: Complete guide to Help module commands and features
 
 # 📦 Help Commands
 
-The main entry point and navigation system for Alita Robot.
+The main entry point and navigation system for shadow Robot.
 ### Navigation Commands:
 - `/start`: Show the welcome message with navigation menu.
 - `/help`: Show help menu with module list; use /help <module> for details.
@@ -50,10 +50,10 @@ Commands in this module are available to all users.
 
 Accessible from the `/about` keyboard via the **Configuration** button
 (`configuration` callback prefix), the wizard walks new users through
-setting up Alita in three steps:
+setting up shadow in three steps:
 
-1. **Step 1** — Add Alita to a group (deep-link button + "Done").
-2. **Step 2** — Promote Alita to admin with recommended permissions
+1. **Step 1** — Add shadow to a group (deep-link button + "Done").
+2. **Step 2** — Promote shadow to admin with recommended permissions
    (instructions + "Done").
 3. **Step 3** — Continue to Help module to explore commands.
 

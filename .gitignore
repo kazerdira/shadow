@@ -20,8 +20,8 @@ tmp/
 .idea/
 
 # Executables
-Alita_Robot
-Alita_Robot.exe
+shadow
+shadow.exe
 .env
 .db.env
 local.docker-compose.yml
@@ -29,13 +29,16 @@ local.docker-compose.yml
 # Mac OS DS_Store file
 .DS_Store
 .mcp.json
-alita_test
+shadow_test
 .gocache/
 specs/.current-spec
 **/.progress.md
 
 # Factory/testing artifacts
 .factory/
+
+# Personal reference files
+COMMANDS.html
 
 # Git worktrees
 .worktrees/
