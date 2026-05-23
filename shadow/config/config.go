@@ -174,6 +174,9 @@ type Config struct {
 	HTTPMaxIdleConns            int  `validate:"min=10,max=1000"` // HTTP connection pool size
 	HTTPMaxIdleConnsPerHost     int  `validate:"min=5,max=500"`   // HTTP connections per host
 
+	// AI configuration
+	GeminiAPIKey string // Google Gemini API key for /ask command (optional)
+
 	// Database migration settings
 	AutoMigrate           bool   // Enable automatic database migrations on startup
 	AutoMigrateSilentFail bool   // Continue running even if migrations fail
@@ -353,6 +356,9 @@ func LoadConfig() (*Config, error) {
 		EnableHTTPConnectionPooling: typeConvertor{str: os.Getenv("ENABLE_HTTP_CONNECTION_POOLING")}.Bool(),
 		HTTPMaxIdleConns:            typeConvertor{str: os.Getenv("HTTP_MAX_IDLE_CONNS")}.Int(),
 		HTTPMaxIdleConnsPerHost:     typeConvertor{str: os.Getenv("HTTP_MAX_IDLE_CONNS_PER_HOST")}.Int(),
+
+		// AI configuration
+		GeminiAPIKey: os.Getenv("GEMINI_API_KEY"),
 
 		// Database migration settings
 		AutoMigrate:           typeConvertor{str: os.Getenv("AUTO_MIGRATE")}.Bool(),
