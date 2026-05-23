@@ -1,0 +1,120 @@
+package shadow
+
+import (
+	"fmt"
+	"runtime"
+	"slices"
+	"strings"
+	"time"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/kazerdira/shadow/shadow/db"
+	"github.com/kazerdira/shadow/shadow/modules"
+
+	"github.com/PaulSonOfLars/gotgbot/v2"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext"
+)
+
+// ResourceMonitor monitors system resources including memory usage and goroutine count.
+// It runs every 5 minutes, logging resource statistics and issuing warnings
+// when thresholds are exceeded (>1000 goroutines or >500MB memory usage).
+func ResourceMonitor() {
+	ticker := time.NewTicker(5 * time.Minute)
+	defer ticker.Stop()
+
+	for range ticker.C {
+		var m runtime.MemStats
+		runtime.ReadMemStats(&m)
+
+		numGoroutines := runtime.NumGoroutine()
+
+		// Log metrics
+		log.WithFields(log.Fields{
+			"goroutines": numGoroutines,
+			"memory_mb":  m.Alloc / 1024 / 1024,
+			"sys_mb":     m.Sys / 1024 / 1024,
+			"gc_runs":    m.NumGC,
+		}).Info("Resource usage stats")
+
+		// Warning thresholds
+		if numGoroutines > 1000 {
+			log.WithField("goroutines", numGoroutines).Warn("High goroutine count detected")
+		}
+
+		if m.Alloc/1024/1024 > 500 { // 500MB
+			log.WithField("memory_mb", m.Alloc/1024/1024).Warn("High memory usage detected")
+		}
+	}
+}
+
+// ListModules returns a formatted string containing all loaded bot modules.
+// It retrieves the module names from the default help registry, sorts them alphabetically,
+// and returns them as a comma-separated list wrapped in square brackets.
+func ListModules() string {
+	modSlice := modules.DefaultHelpRegistry().AbleMap.LoadModules()
+	slices.Sort(modSlice)
+	return fmt.Sprintf("[%s]", strings.Join(modSlice, ", "))
+}
+
+// InitialChecks performs essential initialization tasks before starting the bot.
+// It ensures the bot exists in the database, validates command aliases for duplicates,
+// and starts resource monitoring.
+// Note: Cache is initialized in main.go before this function is called.
+func InitialChecks(b *gotgbot.Bot) error {
+	// Ensure bot exists in database (blocking - required for FK constraints)
+	// This must complete before LoadModules to prevent race conditions with
+	// foreign key constraints that reference the bot entry
+	if err := db.EnsureBotInDb(b); err != nil {
+		log.WithError(err).Error("Failed to ensure bot in database")
+		// Continue anyway - non-fatal for basic operations
+	}
+
+	checkDuplicateAliases()
+
+	// Start resource monitoring
+	go ResourceMonitor()
+	return nil
+}
+
+// checkDuplicateAliases validates that no command aliases are duplicated across modules.
+// It collects all alternative help options from loaded modules and checks for duplicates.
+// The function terminates the program with a fatal error if duplicates are found.
+func checkDuplicateAliases() {
+	var althelp []string
+
+	for _, i := range modules.DefaultHelpRegistry().AltHelpOptions {
+		althelp = append(althelp, i...)
+	}
+
+	// Check for duplicate aliases in module help options
+	var duplicateAlias string
+	val := false
+	visited := make(map[string]bool)
+	for _, item := range althelp {
+		if visited[item] {
+			duplicateAlias = item
+			val = true
+			break
+		}
+		visited[item] = true
+	}
+	if val {
+		log.Fatalf("Found duplicate alias: %s", duplicateAlias)
+	}
+}
+
+// LoadModules loads all bot modules in the correct order using the provided dispatcher.
+// It initializes the help system, loads core functionality modules (admin, bans, filters, etc.),
+// and ensures the help module is loaded last to register all available commands.
+func LoadModules(dispatcher *ext.Dispatcher) {
+	// Initialize Inner Map
+	modules.DefaultHelpRegistry().AbleMap.Init()
+
+	// Load this at last because it loads all the modules
+	defer modules.LoadHelp(dispatcher)
+
+	// Registered modules are loaded by priority. Help is deferred above so it
+	// can render metadata collected by module loaders.
+	modules.LoadAllModules(dispatcher)
+}

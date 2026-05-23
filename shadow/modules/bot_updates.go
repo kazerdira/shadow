@@ -1,0 +1,355 @@
+package modules
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/PaulSonOfLars/gotgbot/v2"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers"
+	"github.com/PaulSonOfLars/gotgbot/v2/ext/handlers/filters/callbackquery"
+
+	"github.com/kazerdira/shadow/shadow/db"
+	"github.com/kazerdira/shadow/shadow/i18n"
+	"github.com/kazerdira/shadow/shadow/utils/cache"
+	"github.com/kazerdira/shadow/shadow/utils/chat_status"
+	"github.com/kazerdira/shadow/shadow/utils/error_handling"
+	"github.com/kazerdira/shadow/shadow/utils/helpers"
+)
+
+// function used to get status of bot when it joined a group and send a message to the group
+// also send a message to MESSAGE_DUMP telling that it joined a group
+// botJoinedGroup handles bot addition to new groups.
+// Sends welcome message and ensures the group is a supergroup before staying.
+func botJoinedGroup(b *gotgbot.Bot, ctx *ext.Context) error {
+	chat := ctx.EffectiveChat
+
+	// don't log if it's a private chat
+	if chat.Type == "private" {
+		return ext.EndGroups
+	}
+
+	// check if group is supergroup or not
+	// if not a supergroup, send a message and leave it
+	if chat.Type == "group" || chat.Type == "channel" {
+		if chat.Type == "group" {
+			tr := i18n.MustNewTranslator(db.GetLanguage(ctx))
+			text, _ := tr.GetString("bot_updates_need_supergroup")
+			convertInstr, _ := tr.GetString("bot_updates_convert_instruction")
+			convertHowto, _ := tr.GetString("bot_updates_convert_howto")
+			_, err := b.SendMessage(
+				chat.Id,
+				fmt.Sprint(
+					text,
+					convertInstr,
+					convertHowto,
+					"https://telegra.ph/Convert-group-to-Supergroup-07-29",
+				),
+				helpers.Shtml(),
+			)
+			if err != nil {
+				log.Error(err)
+				return err
+			}
+		}
+
+		_, err := b.LeaveChat(chat.Id, nil)
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+
+		return ext.EndGroups
+	}
+
+	msgAdmin := "\n\nMake me admin to use me with my full abilities!"
+
+	// used to check if bot was added as admin or not
+	if chat_status.IsBotAdmin(b, ctx, chat) {
+		msgAdmin = ""
+	}
+
+	// send a message to group itself
+	tr := i18n.MustNewTranslator(db.GetLanguage(ctx))
+	thanksText, _ := tr.GetString("bot_updates_thanks_for_adding")
+	creatorsPlug, _ := tr.GetString("bot_updates_creators_plug")
+	_, err := b.SendMessage(
+		chat.Id,
+		fmt.Sprint(thanksText, creatorsPlug, msgAdmin),
+		nil,
+	)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	return ext.ContinueGroups
+}
+
+// adminCacheAutoUpdate automatically refreshes admin cache when admin status changes.
+// Reloads admin permissions cache if it's not already available.
+func adminCacheAutoUpdate(b *gotgbot.Bot, ctx *ext.Context) error {
+	chat := ctx.EffectiveChat
+	if chat == nil {
+		return ext.ContinueGroups
+	}
+
+	// Always invalidate and reload on admin status updates to avoid stale
+	// permission decisions from outdated cache entries.
+	cache.InvalidateAdminCache(chat.Id)
+	cache.LoadAdminCache(b, chat.Id)
+	log.Info(fmt.Sprintf("Reloaded admin cache for %d (%s)", chat.Id, chat.Title))
+
+	return ext.ContinueGroups
+}
+
+// verifyAnonymousAdmin handles callback verification for anonymous admins.
+// When an anonymous admin presses the verify button, this function:
+// 1. Verifies they are actually an admin in the chat
+// 2. Retrieves the original command from cache
+// 3. Executes the appropriate command handler with restored context
+func verifyAnonymousAdmin(b *gotgbot.Bot, ctx *ext.Context) error {
+	defer error_handling.RecoverFromPanic("bot_updates", "verifyAnonymousAdmin")
+
+	query, ok := callbackQueryFromContext(ctx)
+	if !ok {
+		return ext.EndGroups
+	}
+	qmsg := query.Message
+
+	tr := i18n.MustNewTranslator(db.GetLanguage(ctx))
+
+	chatIDRaw := ""
+	msgIDRaw := ""
+	if decoded, ok := decodeCallbackData(query.Data, "anon_admin"); ok {
+		chatIDRaw, _ = decoded.Field("c")
+		msgIDRaw, _ = decoded.Field("m")
+	} else {
+		legacy := strings.Split(query.Data, ":")
+		if len(legacy) >= 4 && legacy[0] == "shadow" && legacy[1] == "anonAdmin" {
+			chatIDRaw = legacy[2]
+			msgIDRaw = legacy[3]
+		} else {
+			// Backward compatibility for legacy malformed dotted payloads if any exist.
+			data := strings.Split(query.Data, ".")
+			if len(data) >= 3 {
+				chatIDRaw = data[1]
+				msgIDRaw = data[2]
+			}
+		}
+	}
+	if chatIDRaw == "" || msgIDRaw == "" {
+		log.Warnf("[BotUpdates] Invalid callback data format: %s", query.Data)
+		text, _ := tr.GetString("common_callback_invalid_request")
+		_, _ = query.Answer(b, &gotgbot.AnswerCallbackQueryOpts{Text: text})
+		return ext.EndGroups
+	}
+	chatId, err := strconv.ParseInt(chatIDRaw, 10, 64)
+	if err != nil {
+		log.Warnf("[BotUpdates] Invalid callback chat ID: %s (%s)", query.Data, chatIDRaw)
+		text, _ := tr.GetString("common_callback_invalid_request")
+		_, _ = query.Answer(b, &gotgbot.AnswerCallbackQueryOpts{Text: text})
+		return ext.EndGroups
+	}
+	msgId, err := strconv.ParseInt(msgIDRaw, 10, 64)
+	if err != nil {
+		log.Warnf("[BotUpdates] Invalid callback message ID: %s (%s)", query.Data, msgIDRaw)
+		text, _ := tr.GetString("common_callback_invalid_request")
+		_, _ = query.Answer(b, &gotgbot.AnswerCallbackQueryOpts{Text: text})
+		return ext.EndGroups
+	}
+
+	// if non-admins try to press it
+	// using this func because it's the only one that can be called by taking chatId from callback query
+	if !chat_status.IsUserAdmin(b, chatId, query.From.Id) {
+		text, _ := tr.GetString("bot_updates_need_admin")
+		_, err := query.Answer(b,
+			&gotgbot.AnswerCallbackQueryOpts{
+				Text: text,
+			},
+		)
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+		return ext.EndGroups
+	}
+
+	msg, errCache := getAnonAdminCache(chatId, msgId)
+
+	if errCache != nil {
+		tr := i18n.MustNewTranslator(db.GetLanguage(ctx))
+		expiredText, _ := tr.GetString("bot_updates_button_expired")
+		_, _, err := qmsg.EditText(b, expiredText, nil)
+		if err != nil {
+			log.Error(err)
+			return err
+		}
+		return ext.EndGroups
+	}
+
+	if msg == nil {
+		log.WithFields(log.Fields{
+			"chatId": chatId,
+			"msgId":  msgId,
+		}).Error("getAnonAdminCache: nil message from cache")
+		return ext.EndGroups
+	}
+
+	_, err = qmsg.Delete(b, nil)
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+
+	ctx.EffectiveMessage = msg                     // set the message to the message that was originally used when command was given
+	ctx.EffectiveMessage.SenderChat = nil          // make senderChat nil to avoid chat_status.isAnonAdmin to mistaken user for GroupAnonymousBot
+	ctx.CallbackQuery = nil                        // callback query is not needed anymore
+	command := strings.Split(msg.Text, " ")[0][1:] // get the command, with or without the bot username and without '/'
+	command = strings.Split(command, "@")[0]       // separate the command from the bot username
+
+	switch command {
+
+	// admin (re-mapped via anonymous admin magic; need raw CommandContext)
+	case "promote", "demote", "title":
+		c, err := helpers.BuildCommandContext(b, ctx)
+		if err != nil {
+			return ext.EndGroups
+		}
+		switch command {
+		case "promote":
+			return adminModule.promote(c)
+		case "demote":
+			return adminModule.demote(c)
+		case "title":
+			return adminModule.setTitle(c)
+		}
+
+	// bans (restrictions)
+	case "ban":
+		return bansModule.ban(b, ctx)
+	case "dban":
+		return bansModule.dBan(b, ctx)
+	case "sban":
+		return bansModule.sBan(b, ctx)
+	case "tban":
+		return bansModule.tBan(b, ctx)
+	case "unban":
+		return bansModule.unban(b, ctx)
+	case "restrict":
+		return bansModule.restrict(b, ctx)
+	case "unrestrict":
+		return bansModule.unrestrict(b, ctx)
+
+	// mutes (restrictions)
+	case "mute":
+		return mutesModule.mute(b, ctx)
+	case "smute":
+		return mutesModule.sMute(b, ctx)
+	case "dmute":
+		return mutesModule.dMute(b, ctx)
+	case "tmute":
+		return mutesModule.tMute(b, ctx)
+	case "unmute":
+		return mutesModule.unmute(b, ctx)
+
+	// pins
+	case "pin", "unpin", "permapin", "unpinall":
+		c, err := helpers.BuildCommandContext(b, ctx)
+		if err != nil {
+			return ext.EndGroups
+		}
+		switch command {
+		case "pin":
+			return pinsModule.pin(c)
+		case "unpin":
+			return pinsModule.unpin(c)
+		case "permapin":
+			return pinsModule.permaPin(c)
+		case "unpinall":
+			return pinsModule.unpinAll(c)
+		}
+
+	// purges
+	case "purge":
+		return purgesModule.purge(b, ctx)
+	case "del":
+		return purgesModule.delCmd(b, ctx)
+
+	// warns
+	case "warn":
+		return warnsModule.warnUser(b, ctx)
+	case "swarn":
+		return warnsModule.sWarnUser(b, ctx)
+	case "dwarn":
+		return warnsModule.dWarnUser(b, ctx)
+	}
+
+	return ext.EndGroups
+}
+
+// getAnonAdminCache retrieves cached message data for anonymous admin verification.
+// Returns the original message context stored during anonymous admin command execution.
+func getAnonAdminCache(chatId, msgId int64) (*gotgbot.Message, error) {
+	m := cache.GetMarshal()
+	if m == nil {
+		return nil, fmt.Errorf("cache not initialized")
+	}
+	result, err := m.Get(cache.Context, fmt.Sprintf("shadow:anonAdmin:%d:%d", chatId, msgId), new(gotgbot.Message))
+	if err != nil {
+		return nil, err
+	}
+	return result.(*gotgbot.Message), nil
+}
+
+type botUpdatesModule struct {
+	moduleStruct
+}
+
+// Name returns the module name.
+func (botUpdatesModule) Name() string {
+	return "BotUpdates"
+}
+
+// Priority returns the load priority. Negative values load before standard modules.
+func (botUpdatesModule) Priority() int {
+	return -10
+}
+
+// Load registers bot event handlers for group management.
+// Sets up handlers for bot joins, admin updates, and anonymous admin verification.
+func (m botUpdatesModule) Load(dispatcher *ext.Dispatcher) {
+	dispatcher.AddHandlerToGroup(
+		handlers.NewMyChatMember(
+			func(u *gotgbot.ChatMemberUpdated) bool {
+				wasMember, isMember := helpers.ExtractJoinLeftStatusChange(u)
+				return !wasMember && isMember
+			},
+			botJoinedGroup,
+		),
+		-1, // process before all other handlers
+	)
+
+	dispatcher.AddHandler(
+		handlers.NewChatMember(
+			helpers.ExtractAdminUpdateStatusChange,
+			adminCacheAutoUpdate,
+		),
+	)
+
+	dispatcher.AddHandler(handlers.NewCallback(callbackquery.Prefix("anon_admin"), verifyAnonymousAdmin))
+	dispatcher.AddHandler(handlers.NewCallback(callbackquery.Prefix("shadow:anonAdmin:"), verifyAnonymousAdmin))
+}
+
+func init() {
+	RegisterModule(botUpdatesModule{moduleStruct{moduleName: "BotUpdates"}})
+}
+
+// LoadBotUpdates is deprecated.
+// Registration and loading are now handled by the module registry via init().
+func LoadBotUpdates(dispatcher *ext.Dispatcher) {
+	// No-op: botUpdatesModule is registered in init() and loaded by LoadAllModules.
+}

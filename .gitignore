@@ -19,9 +19,10 @@ tmp/
 # Goland files
 .idea/
 
-# Executables
-shadow
-shadow.exe
+# Executables (root-level compiled binaries only, NOT the shadow/ source directory)
+/shadow
+!/shadow/
+/shadow.exe
 .env
 .db.env
 local.docker-compose.yml
