@@ -1364,9 +1364,9 @@ bans_anonymous_ban_only_error: This command cannot be used on anonymous user, th
 
 # Greetings module strings
 greetings_welcome_status: |
-  I am currently welcoming users: <code>%s</code>
-  I am currently deleting old welcomes: <code>%s</code>
-  I am currently deleting service messages: <code>%s</code>
+  I am currently welcoming users: <code>%t</code>
+  I am currently deleting old welcomes: <code>%t</code>
+  I am currently deleting service messages: <code>%t</code>
   The welcome message not filling the {} is:
 greetings_welcome_enabled: "I'll welcome users from now on."
 greetings_welcome_disabled: "I'll not welcome users from now on."
@@ -1374,9 +1374,9 @@ greetings_welcome_invalid_option: "I understand 'on/yes' or 'off/no' only!"
 greetings_welcome_set_success: "Successfully set custom welcome message!"
 greetings_welcome_reset_success: "Successfully reset custom welcome message to default!"
 greetings_goodbye_status: |
-  I am currently goodbying users: <code>%s</code>
-  I am currently deleting old goodbyes: <code>%s</code>
-  I am currently deleting service messages: <code>%s</code>
+  I am currently goodbying users: <code>%t</code>
+  I am currently deleting old goodbyes: <code>%t</code>
+  I am currently deleting service messages: <code>%t</code>
   The goodbye message not filling the {} is:
 greetings_goodbye_enabled: "I'll goodbye users from now on."
 greetings_goodbye_disabled: "I'll not goodbye users from now on."
