@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	geminiAPIURL    = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+	geminiAPIURL    = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
 	askCooldown     = 20 * time.Second
 	askMaxOutputLen = 1400 // runes, safe for Telegram's 4096-char limit
 )
@@ -117,7 +117,7 @@ func (moduleStruct) ask(b *gotgbot.Bot, ctx *ext.Context) error {
 
 	answer, err := callGemini(question)
 	if err != nil {
-		log.WithError(err).Warn("[Ask] Gemini request failed")
+		log.WithError(err).Error("[Ask] Gemini request failed")
 		_, _ = msg.Reply(b, "⚠️ Couldn't reach the AI right now. Try again in a moment.", nil)
 		return ext.EndGroups
 	}
@@ -180,6 +180,10 @@ func callGemini(question string) (string, error) {
 		return "", fmt.Errorf("read body: %w", err)
 	}
 
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("gemini HTTP %d: %s", resp.StatusCode, string(respBytes))
+	}
+
 	var gemResp geminiResponse
 	if err := json.Unmarshal(respBytes, &gemResp); err != nil {
 		return "", fmt.Errorf("unmarshal response: %w", err)
@@ -206,7 +210,7 @@ func LoadAsk(dispatcher *ext.Dispatcher) {
 	}
 	DefaultHelpRegistry().AbleMap.Store(askModule.moduleName, true)
 	dispatcher.AddHandler(handlers.NewCommand("ask", askModule.ask))
-	log.Info("[Ask] /ask command enabled (Gemini 2.0 Flash)")
+	log.Info("[Ask] /ask command enabled (Gemini 1.5 Flash)")
 }
 
 func init() {
