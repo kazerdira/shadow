@@ -1,1 +1,1 @@
-web: ./shadow
+web: ./bot
