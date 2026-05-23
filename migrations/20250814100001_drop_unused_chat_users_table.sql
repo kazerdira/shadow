@@ -75,23 +75,10 @@ BEGIN
 END $$;
 
 -- =====================================================
--- Step 3: Drop all indexes on chat_users table
+-- Step 3: Drop primary key constraint (required before dropping indexes)
+-- Regular indexes are handled by DROP TABLE CASCADE in Step 4
 -- =====================================================
-DO $$
-DECLARE
-    index_record RECORD;
-BEGIN
-    -- Drop all indexes on chat_users table
-    FOR index_record IN
-        SELECT indexname
-        FROM pg_indexes
-        WHERE tablename = 'chat_users'
-        AND schemaname = 'public'
-    LOOP
-        EXECUTE 'DROP INDEX IF EXISTS ' || index_record.indexname;
-        RAISE NOTICE 'Dropped index: %', index_record.indexname;
-    END LOOP;
-END $$;
+ALTER TABLE IF EXISTS chat_users DROP CONSTRAINT IF EXISTS chat_users_pkey;
 
 -- =====================================================
 -- Step 4: Drop the chat_users table
