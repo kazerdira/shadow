@@ -1,5 +1,5 @@
 [build]
-builder = "RAILPACK"
+builder = "NIXPACKS"
 
 [deploy]
 healthcheckPath = "/health"
