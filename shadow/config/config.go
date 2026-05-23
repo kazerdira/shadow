@@ -34,6 +34,13 @@ func isCliModeActive() bool {
 // Returns: host:port
 func getRedisAddress() string {
 	if addr := os.Getenv("REDIS_ADDRESS"); addr != "" {
+		// If REDIS_ADDRESS was set to a full URL (e.g. a platform variable like ${{Redis.REDIS_URL}}),
+		// extract just the host:port component.
+		if parsed, err := url.Parse(addr); err == nil &&
+			(parsed.Scheme == "redis" || parsed.Scheme == "rediss") &&
+			parsed.Host != "" {
+			return parsed.Host
+		}
 		return addr
 	}
 
@@ -56,6 +63,17 @@ func getRedisAddress() string {
 func getRedisPassword() string {
 	if pass := os.Getenv("REDIS_PASSWORD"); pass != "" {
 		return pass
+	}
+
+	// If REDIS_ADDRESS is a full URL, extract the password from it
+	if addr := os.Getenv("REDIS_ADDRESS"); addr != "" {
+		if parsed, err := url.Parse(addr); err == nil &&
+			(parsed.Scheme == "redis" || parsed.Scheme == "rediss") &&
+			parsed.User != nil {
+			if pass, ok := parsed.User.Password(); ok {
+				return pass
+			}
+		}
 	}
 
 	// Fallback to extracting from REDIS_URL
