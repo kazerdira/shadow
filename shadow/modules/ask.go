@@ -19,7 +19,7 @@ import (
 )
 
 const (
-	geminiAPIURL    = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
+	geminiAPIURL    = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent"
 	askCooldown     = 20 * time.Second
 	askMaxOutputLen = 1400 // runes, safe for Telegram's 4096-char limit
 )
@@ -210,7 +210,7 @@ func LoadAsk(dispatcher *ext.Dispatcher) {
 	}
 	DefaultHelpRegistry().AbleMap.Store(askModule.moduleName, true)
 	dispatcher.AddHandler(handlers.NewCommand("ask", askModule.ask))
-	log.Info("[Ask] /ask command enabled (Gemini 1.5 Flash)")
+	log.Info("[Ask] /ask command enabled (Gemini 2.0 Flash)")
 }
 
 func init() {
