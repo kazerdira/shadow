@@ -1,1 +1,1 @@
-web: bin/shadow
+web: ./shadow
